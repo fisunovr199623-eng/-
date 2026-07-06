@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Полный расход на ФФ | Prosto Home</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f5f6fa;color:#2d3436;line-height:1.5}
+.page{max-width:1100px;margin:0 auto;padding:32px 24px}
+h1{font-size:28px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.sub{color:#636e72;font-size:14px;margin-bottom:32px}
+h2{font-size:18px;font-weight:700;color:#1a1a2e;margin:36px 0 12px;padding-bottom:6px;border-bottom:2px solid #0984e3;display:inline-block}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}
+.card{background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card .l{font-size:12px;color:#636e72;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.card .v{font-size:28px;font-weight:700;color:#0984e3}
+.card .n{font-size:12px;color:#b2bec3;margin-top:4px}
+.card.w .v{color:#e17055} .card.g .v{color:#00b894}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);margin:12px 0 24px;font-size:13px}
+th{background:#1a1a2e;color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.3px}
+td{padding:8px 12px;border-bottom:1px solid #eee}
+tr:last-child td{border-bottom:none}
+tr.t{background:#dfe6e9;font-weight:700}
+tr.s{background:#0984e3;color:#fff;font-weight:700} tr.s td{color:#fff;padding:6px 12px}
+tr.sr{background:#e17055;color:#fff;font-weight:700} tr.sr td{color:#fff}
+.r{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.tr{background:#ffeef0;color:#d63031} .tg{background:#e8f8f5;color:#00b894} .ty{background:#fef9e7;color:#f39c12}
+.ins{background:#fff;border-left:4px solid #0984e3;padding:16px 20px;margin:16px 0;border-radius:0 8px 8px 0;box-shadow:0 1px 4px rgba(0,0,0,.06);font-size:14px}
+.ins.w{border-left-color:#e17055} .ins.g{border-left-color:#00b894}
+.ins b{color:#1a1a2e}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.g2{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}
+.pie{display:flex;align-items:center;gap:24px;margin:16px 0}
+.pie-chart{width:120px;height:120px;border-radius:50%;background:conic-gradient(#e17055 0% 86%,#0984e3 86% 100%);flex-shrink:0}
+.pie-legend span{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Полный расход на ФФ (обновлено)</h1>
+<p class="sub">Prosto Home · Апрель–Июнь 2026 · Источник: оплаты ФФ + отчёт склада</p>
+
+<!-- KPI -->
+<div class="cards">
+  <div class="card w"><div class="l">Итого оплачено ФФ</div><div class="v">485 025 ₽</div><div class="n">за 3 месяца</div></div>
+  <div class="card"><div class="l">Хранение</div><div class="v">65 307 ₽</div><div class="n">13% от общей суммы</div></div>
+  <div class="card w"><div class="l">Отгрузка / обработка</div><div class="v">419 718 ₽</div><div class="n">87% — основной расход!</div></div>
+  <div class="card w"><div class="l">Полная стоимость на 1 шт</div><div class="v">250 ₽</div><div class="n">хранение 34₽ + отгрузка 217₽</div></div>
+</div>
+
+<div class="ins w"><b>Главное открытие:</b> Хранение — лишь 13% расходов ФФ (65K₽). Остальные 87% — это стоимость отгрузки/обработки (420K₽). На 1 единицу: хранение 34₽, отгрузка 217₽. Итого ФФ добавляет 250₽ к себестоимости каждой единицы.</div>
+
+<!-- 1. РАЗБИВКА ПО КАТЕГОРИЯМ -->
+<h2>1. Структура расходов ФФ</h2>
+
+<div class="pie">
+  <div class="pie-chart"></div>
+  <div class="pie-legend">
+    <p><span style="background:#e17055"></span> <b>Отгрузка / обработка — 419 718₽ (87%)</b></p>
+    <p style="margin-top:6px"><span style="background:#0984e3"></span> Хранение — 65 307₽ (13%)</p>
+  </div>
+</div>
+
+<table>
+<tr><th>Категория</th><th class="r">Апрель</th><th class="r">Май</th><th class="r">Июнь</th><th class="r">Итого</th><th class="r">Доля</th><th class="r">На 1 шт</th></tr>
+<tr><td><b>Оплаты ФФ всего</b></td><td class="r"><b>145 956</b></td><td class="r"><b>105 029</b></td><td class="r"><b>234 040</b></td><td class="r"><b>485 025</b></td><td class="r"><b>100%</b></td><td class="r"><b>250 ₽</b></td></tr>
+<tr><td>&nbsp;&nbsp;↳ Хранение</td><td class="r">4 873</td><td class="r">27 446</td><td class="r">32 988</td><td class="r">65 307</td><td class="r">13%</td><td class="r">34 ₽</td></tr>
+<tr class="sr"><td>&nbsp;&nbsp;↳ Отгрузка / обработка</td><td class="r">141 083</td><td class="r">77 583</td><td class="r">201 052</td><td class="r">419 718</td><td class="r">87%</td><td class="r">217 ₽</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Отгружено шт</td><td class="r">220</td><td class="r">844</td><td class="r">874</td><td class="r">1 938</td><td class="r"></td><td class="r"></td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;Отгрузка ₽/шт</td><td class="r">641 ₽</td><td class="r">92 ₽</td><td class="r">230 ₽</td><td class="r"></td><td class="r"></td><td class="r">217 ₽</td></tr>
+</table>
+
+<div class="ins w"><b>Аномалия в апреле:</b> 641₽/шт — в 3 раза выше среднего. Возможно, в оплату 60 000₽ входил разовый платёж (депозит, подключение, первичная приёмка). Если вычесть 60 000₽ как разовый → апрель = 391₽/шт. Уточните у ФФ.</div>
+
+<!-- 2. ПОЛНАЯ СЕБЕСТОИМОСТЬ НА 1 ШТ -->
+<h2>2. Полная стоимость ФФ на 1 единицу</h2>
+
+<table>
+<tr><th>Артикул</th><th>Тип</th><th class="r">Отгружено шт</th><th class="r">Хранение ₽/шт</th><th class="r">Отгрузка ₽/шт</th><th class="r">ИТОГО ФФ ₽/шт</th><th class="r">Цена продажи</th><th class="r">% от цены</th></tr>
+<tr class="s"><td colspan="8">СТОЛЫ</td></tr>
+<tr><td>Бетон Чикаго</td><td>Стол</td><td class="r">314</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">21 000</td><td class="r">1,2%</td></tr>
+<tr><td>Сланец Скиваро</td><td>Стол</td><td class="r">338</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">22 000</td><td class="r">1,1%</td></tr>
+<tr><td>Мрамор Кристалл</td><td>Стол</td><td class="r">305</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">22 000</td><td class="r">1,1%</td></tr>
+<tr><td>Дуб Каселла</td><td>Стол</td><td class="r">301</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">23 000</td><td class="r">1,1%</td></tr>
+<tr><td>Дуб Давос</td><td>Стол</td><td class="r">192</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">21 000</td><td class="r">1,2%</td></tr>
+<tr><td>Ясень Наварра</td><td>Стол</td><td class="r">61</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">22 000</td><td class="r">1,1%</td></tr>
+<tr class="s"><td colspan="8">ПУФЫ</td></tr>
+<tr><td>Пуф Серый</td><td>Пуф</td><td class="r">84</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">6 600</td><td class="r">4,1%</td></tr>
+<tr><td>Пуф Бежевый</td><td>Пуф</td><td class="r">78</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">6 600</td><td class="r">4,1%</td></tr>
+<tr><td>Пуф Графит</td><td>Пуф</td><td class="r">77</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">6 600</td><td class="r">4,1%</td></tr>
+<tr><td>Пуф Шоколад</td><td>Пуф</td><td class="r">74</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">6 600</td><td class="r">4,1%</td></tr>
+<tr><td>Пуф Молочный</td><td>Пуф</td><td class="r">59</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">6 600</td><td class="r">4,1%</td></tr>
+<tr class="t"><td>ИТОГО / СРЕДНЕЕ</td><td></td><td class="r">1 938</td><td class="r">34</td><td class="r">217</td><td class="r"><b>250</b></td><td class="r">—</td><td class="r">—</td></tr>
+</table>
+
+<div class="ins"><b>Для пуфов ФФ относительно дороже:</b> 270₽ при цене 6 600₽ = 4,1% от цены. Для столов — 245₽ при цене 21 000₽ = 1,1%. Пуфы — кандидаты на прямую поставку FBO.</div>
+
+<!-- 3. СРАВНЕНИЕ ФФ vs FBO -->
+<h2>3. Сравнение: ФФ vs прямая поставка на склад МП</h2>
+<p style="color:#636e72;font-size:13px;margin-bottom:12px;">Теперь с полными данными. ФФ = хранение + отгрузка (250₽/шт). FBO = хранение МП + кросс-докинг (только Ozon). При FBO отгрузка ФФ не нужна.</p>
+
+<table>
+<tr><th>Сценарий</th><th>Площадка</th><th class="r">ФФ хран.</th><th class="r">ФФ отгрузка</th><th class="r">Итого ФФ</th><th class="r">МП хран.</th><th class="r">Кросс-док</th><th class="r">Итого FBO</th><th class="r">Разница</th><th>Вердикт</th></tr>
+<tr class="s"><td colspan="10">СТОЛЫ</td></tr>
+<tr><td>Стол → WB</td><td>WB</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">15</td><td class="r">—</td><td class="r"><b>15</b></td><td class="r" style="color:#00b894;font-weight:700">−230 ₽</td><td><span class="tag tg">FBO в 16× дешевле!</span></td></tr>
+<tr><td>Стол → Ozon</td><td>Ozon</td><td class="r">28</td><td class="r">217</td><td class="r"><b>245</b></td><td class="r">8</td><td class="r">220</td><td class="r"><b>228</b></td><td class="r" style="color:#00b894;font-weight:700">−17 ₽</td><td><span class="tag tg">FBO дешевле</span></td></tr>
+<tr class="s"><td colspan="10">ПУФЫ</td></tr>
+<tr><td>Пуф → WB</td><td>WB</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">22</td><td class="r">—</td><td class="r"><b>22</b></td><td class="r" style="color:#00b894;font-weight:700">−248 ₽</td><td><span class="tag tg">FBO в 12× дешевле!</span></td></tr>
+<tr><td>Пуф → Ozon</td><td>Ozon</td><td class="r">53</td><td class="r">217</td><td class="r"><b>270</b></td><td class="r">10</td><td class="r">220</td><td class="r"><b>230</b></td><td class="r" style="color:#00b894;font-weight:700">−40 ₽</td><td><span class="tag tg">FBO дешевле</span></td></tr>
+</table>
+
+<div class="ins w"><b>С полными данными FBO выгоднее на ОБЕИХ площадках!</b><br><br>
+• <b>WB:</b> экономия 230–248₽/шт. За квартал: 831 шт × 239₽ ≈ <b>198 600₽</b><br>
+• <b>Ozon:</b> экономия 17–40₽/шт. За квартал: 993 шт × 28₽ ≈ <b>27 800₽</b><br><br>
+<b>Суммарная потенциальная экономия: ~226 000₽/квартал</b> при переходе на прямые поставки.<br>
+Но: теряется гибкость перераспределения между площадками и скорость реакции на спрос.
+</div>
+
+<!-- 4. ПОМЕСЯЧНЫЕ ОПЛАТЫ -->
+<h2>4. Детализация оплат ФФ</h2>
+
+<table>
+<tr><th>Месяц</th><th>Оплаты</th><th class="r">Сумма</th><th class="r">Хранение</th><th class="r">Отгрузка</th><th class="r">Отгрузка ₽/шт</th></tr>
+<tr>
+  <td>Апрель</td>
+  <td style="font-size:12px;color:#636e72">28 872 + <span style="color:#e17055;font-weight:600">60 000</span> + 6 160 + 12 200 + 33 844 + 4 880</td>
+  <td class="r"><b>145 956</b></td><td class="r">4 873</td><td class="r">141 083</td>
+  <td class="r"><span class="tag tr">641 ₽ ⚠️</span></td>
+</tr>
+<tr>
+  <td>Май</td>
+  <td style="font-size:12px;color:#636e72">30 656 + 5 320 + 40 491 + 28 562</td>
+  <td class="r"><b>105 029</b></td><td class="r">27 446</td><td class="r">77 583</td>
+  <td class="r"><span class="tag tg">92 ₽</span></td>
+</tr>
+<tr>
+  <td>Июнь</td>
+  <td style="font-size:12px;color:#636e72">89 282 + 47 578 + 47 712 + 49 468</td>
+  <td class="r"><b>234 040</b></td><td class="r">32 988</td><td class="r">201 052</td>
+  <td class="r"><span class="tag ty">230 ₽</span></td>
+</tr>
+<tr class="t"><td>ИТОГО</td><td></td><td class="r"><b>485 025</b></td><td class="r">65 307</td><td class="r">419 718</td><td class="r"><b>217 ₽</b></td></tr>
+</table>
+
+<div class="ins">
+<b>Почему апрель дорогой (641₽/шт)?</b> Платёж 60 000₽ — возможно разовый (депозит, подключение, первичная приёмка 448 шт). Без него: 85 956₽ / 220 шт = 391₽/шт. Всё равно выше мая/июня — мало отгрузок, фиксированные расходы размазаны.<br><br>
+<b>Почему июнь вырос (230₽/шт)?</b> Июньская оплата 234K₽ — максимум за квартал. Возможно: рост тарифов ФФ, или оплата за работы июня включает задолженности мая.
+</div>
+
+<!-- 5. ИТОГОВАЯ РЕКОМЕНДАЦИЯ -->
+<h2>5. Итоговая рекомендация</h2>
+
+<div class="g2">
+  <div class="ins g">
+    <b>✅ WB — переходить на прямые поставки</b><br>
+    Экономия 230–248₽ на каждой единице. При ~280 шт/мес на WB = <b>~67 000₽/мес экономии</b>. Вы уже планируете прямые поставки в Москву — это правильно.
+  </div>
+  <div class="ins">
+    <b>🟡 Ozon — рассмотреть FBO</b><br>
+    Экономия 17–40₽/шт. При ~330 шт/мес = <b>~9 000₽/мес</b>. Небольшая, но если кросс-докинг снизится (он уже упал со 167K до 9K в мае) — выгода вырастет.
+  </div>
+</div>
+
+<div class="ins" style="border-left-color:#6c5ce7;margin-top:24px">
+<b>Общая картина:</b><br><br>
+ФФ обходится в <b>485 025₽/квартал</b> (162K₽/мес). Из них 87% — отгрузка, только 13% — хранение.<br><br>
+При полном переходе на FBO потенциальная экономия <b>~226 000₽/квартал</b> (~75K₽/мес).<br><br>
+<b>Но учитывайте скрытые расходы FBO:</b> необходимость точного прогнозирования спроса по площадкам, риск OOS при неправильном распределении, кросс-докинг Ozon при FBO поставках, невозможность быстро перебросить товар между WB и Ozon.<br><br>
+<b>Оптимальная стратегия:</b> Столы на WB — перевести на прямые поставки (экономия ~67K₽/мес). Остальное — оставить через ФФ пока производство не стабилизируется.
+</div>
+
+</div>
+</body>
+</html>
