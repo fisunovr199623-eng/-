@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Отчёт по штрафам — Апрель–Июнь 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0f1117;
+    color: #e2e4e9;
+    line-height: 1.5;
+    padding: 32px 24px 64px;
+  }
+
+  .container { max-width: 1080px; margin: 0 auto; }
+
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #23262f;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
+  }
+
+  /* Summary cards */
+  .summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .summary-card {
+    background: #181a20;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #23262f;
+  }
+
+  .summary-card.total {
+    border-color: #dc2626;
+    background: linear-gradient(135deg, #1a1012 0%, #181a20 100%);
+  }
+
+  .summary-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .summary-value {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+
+  .summary-value.negative { color: #f87171; }
+  .summary-value.ozon-color { color: #818cf8; }
+  .summary-value.wb-color { color: #c084fc; }
+
+  .summary-detail {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 6px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-ozon { background: #312e81; color: #a5b4fc; }
+  .badge-wb { background: #3b0764; color: #d8b4fe; }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  /* Month grid */
+  .months-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .month-card {
+    background: #181a20;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #23262f;
+  }
+
+  .month-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #9ca3af;
+    margin-bottom: 6px;
+  }
+
+  .month-total {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .month-count {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  .month-card.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    border-color: #2a2d35;
+  }
+
+  .month-card.empty .month-name {
+    color: #4b5563;
+    text-align: center;
+  }
+
+  /* Detail table */
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+  .detail-table th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6b7280;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 1px solid #23262f;
+  }
+
+  .detail-table th:last-child,
+  .detail-table th:nth-child(2),
+  .detail-table th:nth-child(3),
+  .detail-table th:nth-child(4) {
+    text-align: right;
+  }
+
+  .detail-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-bottom: 1px solid #1c1e26;
+    color: #d1d5db;
+  }
+
+  .detail-table td:last-child,
+  .detail-table td:nth-child(2),
+  .detail-table td:nth-child(3),
+  .detail-table td:nth-child(4) {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .detail-table tr:hover td { background: #1c1e26; }
+
+  .detail-table tfoot td {
+    font-weight: 700;
+    color: #fff;
+    border-top: 2px solid #23262f;
+    border-bottom: none;
+    padding-top: 12px;
+  }
+
+  .amt-neg { color: #f87171; }
+  .amt-pos { color: #4ade80; }
+
+  .table-wrapper {
+    background: #181a20;
+    border-radius: 12px;
+    border: 1px solid #23262f;
+    overflow: hidden;
+    padding: 4px 0;
+  }
+
+  .table-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #9ca3af;
+    padding: 16px 16px 8px;
+  }
+
+  /* Bar chart */
+  .chart-section {
+    margin-bottom: 48px;
+  }
+
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 200px;
+    padding: 20px 20px 0;
+  }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .bar-pair {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bar {
+    width: 36px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    min-height: 2px;
+    transition: opacity 0.2s;
+  }
+
+  .bar:hover { opacity: 0.8; }
+  .bar.ozon { background: #818cf8; }
+  .bar.wb { background: #c084fc; }
+
+  .bar-label {
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .bar-value {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .bar-value.ozon { color: #a5b4fc; }
+  .bar-value.wb { color: #d8b4fe; }
+
+  .chart-legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #9ca3af;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+  }
+
+  .legend-dot.ozon { background: #818cf8; }
+  .legend-dot.wb { background: #c084fc; }
+
+  .note {
+    background: #1a1c24;
+    border-left: 3px solid #f59e0b;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #9ca3af;
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .note strong { color: #f59e0b; }
+
+  @media (max-width: 640px) {
+    .summary, .months-grid { grid-template-columns: 1fr; }
+    .bar { width: 24px; }
+    h1 { font-size: 22px; }
+    .summary-value { font-size: 22px; }
+    .detail-table { font-size: 12px; }
+    .detail-table td, .detail-table th { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Отчёт по штрафам</h1>
+  <div class="subtitle">Апрель — Июнь 2026 · Prostonova</div>
+</header>
+
+<!-- Summary -->
+<div class="summary">
+  <div class="summary-card total">
+    <div class="summary-label">Итого штрафов</div>
+    <div class="summary-value negative">209 397 ₽</div>
+    <div class="summary-detail">за 3 месяца, оба маркетплейса</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-label">Ozon</div>
+    <div class="summary-value ozon-color">90 996 ₽</div>
+    <div class="summary-detail">289 начислений · апрель–июнь</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-label">Wildberries</div>
+    <div class="summary-value wb-color">118 402 ₽</div>
+    <div class="summary-detail">19 начислений · данные за июнь</div>
+  </div>
+</div>
+
+<!-- Bar chart -->
+<div class="section">
+  <div class="section-header">
+    <h2>Динамика по месяцам</h2>
+  </div>
+  <div class="table-wrapper">
+    <div class="bar-chart">
+      <div class="bar-group">
+        <div class="bar-pair">
+          <div class="bar ozon" style="height: 45%;">
+            <div class="bar-value ozon">17 727</div>
+          </div>
+          <div class="bar wb" style="height: 0%; min-height: 0;">
+          </div>
+        </div>
+        <div class="bar-label">Апрель</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-pair">
+          <div class="bar ozon" style="height: 100%;">
+            <div class="bar-value ozon">39 190</div>
+          </div>
+          <div class="bar wb" style="height: 0%; min-height: 0;">
+          </div>
+        </div>
+        <div class="bar-label">Май</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-pair">
+          <div class="bar ozon" style="height: 87%;">
+            <div class="bar-value ozon">34 079</div>
+          </div>
+          <div class="bar wb" style="height: 100%;">
+            <div class="bar-value wb">118 402</div>
+          </div>
+        </div>
+        <div class="bar-label">Июнь</div>
+      </div>
+    </div>
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot ozon"></div>Ozon</div>
+      <div class="legend-item"><div class="legend-dot wb"></div>Wildberries</div>
+    </div>
+  </div>
+  <div class="note">
+    <strong>Внимание:</strong> Данные по WB за апрель и май отсутствуют в загруженных файлах. Еженедельные отчёты WB охватывают только июнь 2026. Фактическая сумма штрафов WB за 3 месяца может быть выше.
+  </div>
+</div>
+
+<!-- OZON Section -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-badge badge-ozon">OZON</span>
+    <h2>Штрафы по месяцам</h2>
+  </div>
+
+  <div class="months-grid">
+    <div class="month-card">
+      <div class="month-name">Апрель</div>
+      <div class="month-total amt-neg">−17 727 ₽</div>
+      <div class="month-count">31 начисление</div>
+    </div>
+    <div class="month-card">
+      <div class="month-name">Май</div>
+      <div class="month-total amt-neg">−39 190 ₽</div>
+      <div class="month-count">126 начислений</div>
+    </div>
+    <div class="month-card">
+      <div class="month-name">Июнь</div>
+      <div class="month-total amt-neg">−34 079 ₽</div>
+      <div class="month-count">132 начисления</div>
+    </div>
+  </div>
+
+  <!-- Ozon detail table -->
+  <div class="table-wrapper">
+    <div class="table-title">Детализация по типам штрафов — Ozon</div>
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>Тип штрафа</th>
+          <th>Апрель</th>
+          <th>Май</th>
+          <th>Июнь</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Отгрузка в нерекомендованный слот</td>
+          <td class="amt-neg">−4 710 ₽</td>
+          <td class="amt-neg">−24 750 ₽</td>
+          <td class="amt-neg">−24 800 ₽</td>
+        </tr>
+        <tr>
+          <td>Превышение индекса ошибок: отмена</td>
+          <td class="amt-neg">−9 052 ₽</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>Превышение индекса ошибок: просроченная отгрузка</td>
+          <td class="amt-neg">−1 341 ₽</td>
+          <td class="amt-neg">−2 320 ₽</td>
+          <td class="amt-neg">−464 ₽</td>
+        </tr>
+        <tr>
+          <td>Дополнительная обработка ОВХ</td>
+          <td class="amt-neg">−1 500 ₽</td>
+          <td>—</td>
+          <td class="amt-neg">−4 200 ₽</td>
+        </tr>
+        <tr>
+          <td>Временное размещение товара в СЦ/ПВЗ</td>
+          <td>—</td>
+          <td class="amt-neg">−9 828 ₽</td>
+          <td class="amt-neg">−2 223 ₽</td>
+        </tr>
+        <tr>
+          <td>Утилизация товара: не забрали в срок</td>
+          <td class="amt-neg">−375 ₽</td>
+          <td class="amt-neg">−2 625 ₽</td>
+          <td class="amt-neg">−750 ₽</td>
+        </tr>
+        <tr>
+          <td>Жалобы покупателей: неполная комплектация</td>
+          <td class="amt-neg">−980 ₽</td>
+          <td>—</td>
+          <td class="amt-neg">−2 088 ₽</td>
+        </tr>
+        <tr>
+          <td>Жалобы покупателей: привезли не тот товар</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="amt-neg">−1 044 ₽</td>
+        </tr>
+        <tr>
+          <td>Отмена начисления (возврат)</td>
+          <td class="amt-pos">+231 ₽</td>
+          <td class="amt-pos">+334 ₽</td>
+          <td class="amt-pos">+1 490 ₽</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Итого Ozon</td>
+          <td class="amt-neg">−17 727 ₽</td>
+          <td class="amt-neg">−39 190 ₽</td>
+          <td class="amt-neg">−34 079 ₽</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- WB Section -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-badge badge-wb">WILDBERRIES</span>
+    <h2>Штрафы по месяцам</h2>
+  </div>
+
+  <div class="months-grid">
+    <div class="month-card empty">
+      <div class="month-name">Апрель<br><span style="font-weight:400;font-size:12px;">нет данных</span></div>
+    </div>
+    <div class="month-card empty">
+      <div class="month-name">Май<br><span style="font-weight:400;font-size:12px;">нет данных</span></div>
+    </div>
+    <div class="month-card">
+      <div class="month-name">Июнь</div>
+      <div class="month-total amt-neg">118 402 ₽</div>
+      <div class="month-count">19 начислений</div>
+    </div>
+  </div>
+
+  <!-- WB detail table -->
+  <div class="table-wrapper">
+    <div class="table-title">Детализация по типам штрафов — Wildberries (Июнь)</div>
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>Тип штрафа</th>
+          <th>Кол-во</th>
+          <th>Сумма</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Занижение фактических габаритов упаковки товара</td>
+          <td>11</td>
+          <td class="amt-neg">106 402 ₽</td>
+        </tr>
+        <tr>
+          <td>Штраф МП: невыполненный заказ</td>
+          <td>5</td>
+          <td class="amt-neg">15 000 ₽</td>
+        </tr>
+        <tr>
+          <td>Штраф МП: невыполненный заказ (отмена продавцом)</td>
+          <td>1</td>
+          <td class="amt-neg">3 000 ₽</td>
+        </tr>
+        <tr>
+          <td>Сторно штрафов (возврат)</td>
+          <td>2</td>
+          <td class="amt-pos">−6 000 ₽</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Итого Wildberries</td>
+          <td>19</td>
+          <td class="amt-neg">118 402 ₽</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="note" style="margin-top:20px">
+    <strong>Основная проблема WB:</strong> 90% суммы штрафов за июнь (106 402 ₽) приходится на «Занижение фактических габаритов упаковки товара» — 11 штрафов по ~9 600–10 000 ₽. Рекомендуется проверить карточки товаров и актуализировать габариты.
+  </div>
+</div>
+
+<!-- TOP issues -->
+<div class="section">
+  <div class="section-header">
+    <h2>Ключевые проблемы</h2>
+  </div>
+  <div class="table-wrapper">
+    <div class="table-title">Топ-5 категорий штрафов за 3 месяца (оба МП)</div>
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>Категория</th>
+          <th>МП</th>
+          <th>Кол-во</th>
+          <th>Сумма</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Занижение габаритов упаковки</td>
+          <td><span class="section-badge badge-wb" style="font-size:11px;padding:2px 8px;">WB</span></td>
+          <td>11</td>
+          <td class="amt-neg">106 402 ₽</td>
+        </tr>
+        <tr>
+          <td>Отгрузка в нерекомендованный слот</td>
+          <td><span class="section-badge badge-ozon" style="font-size:11px;padding:2px 8px;">Ozon</span></td>
+          <td>243</td>
+          <td class="amt-neg">54 260 ₽</td>
+        </tr>
+        <tr>
+          <td>Невыполненный заказ / отмена</td>
+          <td><span class="section-badge badge-wb" style="font-size:11px;padding:2px 8px;">WB</span></td>
+          <td>6</td>
+          <td class="amt-neg">18 000 ₽</td>
+        </tr>
+        <tr>
+          <td>Временное размещение товара</td>
+          <td><span class="section-badge badge-ozon" style="font-size:11px;padding:2px 8px;">Ozon</span></td>
+          <td>8</td>
+          <td class="amt-neg">12 051 ₽</td>
+        </tr>
+        <tr>
+          <td>Превышение индекса ошибок: отмена</td>
+          <td><span class="section-badge badge-ozon" style="font-size:11px;padding:2px 8px;">Ozon</span></td>
+          <td>3</td>
+          <td class="amt-neg">9 052 ₽</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
