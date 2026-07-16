@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco Shop · Диагностика убытка</title>
+<style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.min.css');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:#0f1117;color:#e2e4e9;min-height:100vh;padding:24px 20px}
+.wrap{max-width:920px;margin:0 auto}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#6b7280;margin-bottom:4px}
+h1{font-size:28px;font-weight:700;color:#f9fafb}
+.subtitle{color:#9ca3af;margin-top:6px;font-size:14px;line-height:1.5}
+.red{color:#ef4444;font-weight:600}
+.tabs{display:flex;gap:4px;margin-bottom:24px;background:#1a1d27;border-radius:10px;padding:4px}
+.tabs button{flex:1;padding:10px 0;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;background:transparent;color:#9ca3af;transition:.15s}
+.tabs button.active{background:#2563eb;color:#fff}
+.tabs button:hover:not(.active){background:#252830}
+.card{background:#1a1d27;border-radius:14px;padding:20px;margin-bottom:16px}
+.card h3{font-size:15px;font-weight:700;color:#f9fafb;margin-bottom:16px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.metric{background:#1a1d27;border-radius:12px;padding:16px 14px}
+.metric .label{font-size:11px;color:#6b7280;margin-bottom:6px}
+.metric .value{font-size:20px;font-weight:700}
+.wf-row{display:flex;align-items:center;margin-bottom:8px;padding:0;border-radius:8px}
+.wf-row.hl{padding:6px 8px;background:#f59e0b15;border:1px solid #f59e0b30}
+.wf-label{width:140px;font-size:12px;color:#9ca3af}
+.wf-row.hl .wf-label{color:#f59e0b;font-weight:600}
+.wf-track{flex:1;height:20px;background:#252830;border-radius:4px;overflow:hidden}
+.wf-bar{height:100%;border-radius:4px}
+.wf-val{width:110px;text-align:right;font-size:13px;font-weight:600;color:#e2e4e9}
+.wf-pct{width:50px;text-align:right;font-size:11px;color:#6b7280}
+.root{background:linear-gradient(135deg,#1a1d27,#1e1215);border-radius:14px;padding:20px;margin-bottom:20px;border:1px solid #ef444430}
+.root h3{font-size:15px;font-weight:700;color:#ef4444;margin-bottom:12px}
+.root p{font-size:14px;line-height:1.7;color:#d1d5db;margin-bottom:12px}
+.root p:last-child{margin-bottom:0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.two-col,.budget-cols,.detail-metrics{grid-template-columns:1fr!important}}
+.col-card{background:#1a1d27;border-radius:14px;padding:16px}
+.col-card h4{font-size:13px;font-weight:600;margin-bottom:12px}
+.col-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #252830;font-size:12px}
+.col-total{display:flex;justify-content:space-between;padding:8px 0 0;font-size:13px;font-weight:700}
+.prod-hint{font-size:13px;color:#9ca3af;margin-bottom:16px}
+.prod-item{background:#1a1d27;border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;border:1px solid transparent;transition:.15s}
+.prod-item.loss{border-color:#ef444420}.prod-item.loss:hover{border-color:#ef444460}
+.prod-item.win{border-color:#10b98120}.prod-item.win:hover{border-color:#10b98160}
+.prod-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.prod-name{font-size:14px;font-weight:600;color:#f9fafb}
+.badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;display:inline-block}
+.prod-profit{font-size:16px;font-weight:700}
+.prod-meta{display:flex;gap:16px;font-size:11px;color:#6b7280;flex-wrap:wrap}
+.back-btn{background:none;border:none;color:#3b82f6;cursor:pointer;font-size:13px;margin-bottom:16px;padding:0}
+.detail-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.dm{background:#252830;border-radius:8px;padding:10px 12px}
+.dm .dl{font-size:10px;color:#6b7280;margin-bottom:4px}
+.dm .dv{font-size:16px;font-weight:700}
+.bar-row{display:flex;align-items:center;margin-bottom:6px}
+.bar-label{width:140px;font-size:12px}
+.bar-track{flex:1;height:16px;background:#252830;border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s}
+.bar-val{width:50px;text-align:right;font-size:12px;font-weight:600}
+.hypo{background:linear-gradient(135deg,#1a1d27,#14201e);border-radius:14px;padding:20px;border:1px solid #10b98130;margin-top:16px}
+.hypo h4{font-size:14px;font-weight:700;color:#10b981;margin-bottom:10px}
+.hypo p{font-size:14px;line-height:1.7;color:#d1d5db}
+.plan-header{background:linear-gradient(135deg,#1a1d27,#14201e);border-radius:14px;padding:20px;margin-bottom:20px;border:1px solid #10b98130}
+.plan-header h3{font-size:16px;font-weight:700;color:#10b981;margin-bottom:8px}
+.plan-header p{font-size:13px;color:#9ca3af;line-height:1.6}
+.step{background:#1a1d27;border-radius:12px;padding:16px 18px;margin-bottom:10px;border-left:3px solid}
+.step-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px}
+.step-left{display:flex;align-items:center;gap:8px}
+.step-num{font-size:11px;font-weight:700;color:#0f1117;border-radius:4px;padding:2px 7px}
+.step-title{font-size:14px;font-weight:600;color:#f9fafb}
+.step-impact{font-size:14px;font-weight:700;color:#10b981}
+.step p{font-size:12px;color:#9ca3af;line-height:1.6;padding-left:30px;margin:0}
+.budget{background:#1a1d27;border-radius:14px;padding:20px;margin-top:20px}
+.budget h4{font-size:14px;font-weight:700;color:#f9fafb;margin-bottom:12px}
+.budget-body{font-size:12px;color:#9ca3af;line-height:1.7}
+.budget-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.budget-col-title{font-weight:600;margin-bottom:6px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="margin-bottom:32px">
+    <div class="eyebrow">Eco Shop · Ozon · 01–16 июля 2026</div>
+    <h1>Диагностика убытка</h1>
+    <p class="subtitle">Магазин теряет <span class="red">−6 905 ₽</span> при выручке 942 664 ₽. Ниже — причины и план действий.</p>
+  </div>
+  <div class="tabs">
+    <button class="active" onclick="showTab('overview',this)">Диагностика</button>
+    <button onclick="showTab('products',this)">Поартикульный</button>
+    <button onclick="showTab('plan',this)">План действий</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview">
+    <div class="metrics">
+      <div class="metric"><div class="label">Чистая прибыль</div><div class="value" style="color:#ef4444">−6 905 ₽</div></div>
+      <div class="metric"><div class="label">Валовая выручка</div><div class="value">942 664 ₽</div></div>
+      <div class="metric"><div class="label">Маржа</div><div class="value" style="color:#ef4444">−0.7%</div></div>
+    </div>
+    <div class="card">
+      <h3>Куда уходит выручка</h3>
+      <div class="wf-row"><div class="wf-label">Выручка</div><div class="wf-track"><div class="wf-bar" style="width:100%;background:#10b98140"></div></div><div class="wf-val" style="color:#10b981">942 664 ₽</div><div class="wf-pct">100%</div></div>
+      <div class="wf-row"><div class="wf-label">Комиссия Ozon</div><div class="wf-track"><div class="wf-bar" style="width:37.8%;background:#ef444440"></div></div><div class="wf-val">−356 373 ₽</div><div class="wf-pct">37.8%</div></div>
+      <div class="wf-row hl"><div class="wf-label">Продвижение</div><div class="wf-track"><div class="wf-bar" style="width:16.8%;background:#f59e0b60"></div></div><div class="wf-val">−157 961 ₽</div><div class="wf-pct">16.8%</div></div>
+      <div class="wf-row"><div class="wf-label">Себестоимость</div><div class="wf-track"><div class="wf-bar" style="width:31.1%;background:#8b5cf640"></div></div><div class="wf-val">−293 384 ₽</div><div class="wf-pct">31.1%</div></div>
+      <div class="wf-row"><div class="wf-label">Логистика</div><div class="wf-track"><div class="wf-bar" style="width:9.6%;background:#3b82f640"></div></div><div class="wf-val">−90 170 ₽</div><div class="wf-pct">9.6%</div></div>
+      <div class="wf-row"><div class="wf-label">Налоги</div><div class="wf-track"><div class="wf-bar" style="width:3.0%;background:#6b728040"></div></div><div class="wf-val">−28 199 ₽</div><div class="wf-pct">3.0%</div></div>
+      <div class="wf-row"><div class="wf-label">Прочее</div><div class="wf-track"><div class="wf-bar" style="width:1.8%;background:#6b728040"></div></div><div class="wf-val">−16 834 ₽</div><div class="wf-pct">1.8%</div></div>
+    </div>
+    <div class="root">
+      <h3>Главная причина убытка</h3>
+      <p><strong style="color:#f9fafb">6 убыточных товаров генерируют −40 940 ₽ убытка</strong>, в то время как 9 прибыльных приносят лишь +35 108 ₽. Дефицит: 5 832 ₽ + налоги.</p>
+      <p>На продвижение убыточных товаров потрачено <strong style="color:#f59e0b">104 893 ₽</strong> — это 66.4% всего рекламного бюджета. Одни наушники JBL 860 белый «съели» 31.5К на рекламу при ДРР 54.6%.</p>
+      <p>Вторая проблема — <strong style="color:#f9fafb">комиссия Ozon в среднем 37.8%</strong> от выручки. Вместе с промо (16.8%) это 54.6% — больше половины выручки уходит до себестоимости.</p>
+    </div>
+    <div class="two-col">
+      <div class="col-card"><h4 style="color:#ef4444">Убыточные товары</h4>
+        <div class="col-row"><span>JBL 860 белый</span><span style="color:#ef4444;font-weight:600">−21 121</span></div>
+        <div class="col-row"><span>JBL Pro 5 чёрный</span><span style="color:#ef4444;font-weight:600">−13 933</span></div>
+        <div class="col-row"><span>JBL 860 синий</span><span style="color:#ef4444;font-weight:600">−4 314</span></div>
+        <div class="col-row"><span>Мыло хозяйственное</span><span style="color:#ef4444;font-weight:600">−913</span></div>
+        <div class="col-row"><span>JBL Pro 5 золотой</span><span style="color:#ef4444;font-weight:600">−494</span></div>
+        <div class="col-row"><span>Labubu брелок</span><span style="color:#ef4444;font-weight:600">−165</span></div>
+        <div class="col-total"><span>Итого</span><span style="color:#ef4444">−40 940 ₽</span></div>
+      </div>
+      <div class="col-card"><h4 style="color:#10b981">Прибыльные товары</h4>
+        <div class="col-row"><span>Витамин Д3 К2</span><span style="color:#10b981;font-weight:600">+12 515</span></div>
+        <div class="col-row"><span>Эпимедиумная паста</span><span style="color:#10b981;font-weight:600">+6 436</span></div>
+        <div class="col-row"><span>Монталин</span><span style="color:#10b981;font-weight:600">+5 419</span></div>
+        <div class="col-row"><span>Mass Former 20</span><span style="color:#10b981;font-weight:600">+4 336</span></div>
+        <div class="col-row"><span>JBL Pro 5 золотой (2)</span><span style="color:#10b981;font-weight:600">+3 856</span></div>
+        <div class="col-row"><span>Mass Former 60</span><span style="color:#10b981;font-weight:600">+1 739</span></div>
+        <div class="col-row"><span>Мыло 4шт / Мазь / MF40</span><span style="color:#10b981;font-weight:600">+857</span></div>
+        <div class="col-total"><span>Итого</span><span style="color:#10b981">+35 158 ₽</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div id="tab-products" class="hidden">
+    <div id="products-list"></div>
+    <div id="product-detail" class="hidden"></div>
+  </div>
+
+  <!-- PLAN -->
+  <div id="tab-plan" class="hidden">
+    <div class="plan-header"><h3>Потенциал: от −6 905 ₽ → до +40 000–55 000 ₽</h3><p>Выполнение плана ниже может увеличить прибыль на 47–62К ₽ за аналогичный период.</p></div>
+    <div class="step" style="border-color:#ef4444"><div class="step-top"><div class="step-left"><span class="step-num" style="background:#ef4444">1</span><span class="step-title">Немедленно остановить промо JBL 860 белый и синий</span></div><span class="step-impact">+35 500 ₽</span></div><p>ДРР 54.6% и 37.6%. Два товара сжигают 42К рекламного бюджета, генерируя 25К убытка. Отключение рекламы — моментальный эффект.</p></div>
+    <div class="step" style="border-color:#f59e0b"><div class="step-top"><div class="step-left"><span class="step-num" style="background:#f59e0b">2</span><span class="step-title">Снизить ДРР на JBL Pro 5 чёрный до 10%</span></div><span class="step-impact">+25 000 ₽</span></div><p>197 заказов показывают сильный органический спрос. Текущие 57К на рекламу избыточны — товар продаётся и без неё. Снижение промо с 19% до 10% сэкономит ~27К.</p></div>
+    <div class="step" style="border-color:#6b7280"><div class="step-top"><div class="step-left"><span class="step-num" style="background:#6b7280">3</span><span class="step-title">Убрать Labubu и мыло из активных продаж</span></div><span class="step-impact">+1 100 ₽</span></div><p>Labubu продаётся дешевле себестоимости. Мыло поштучно при комиссии 44.8% и логистике 20.4% — убыточно при любом промо.</p></div>
+    <div class="step" style="border-color:#10b981"><div class="step-top"><div class="step-left"><span class="step-num" style="background:#10b981">4</span><span class="step-title">Масштабировать Монталин и Эпимедиумную пасту</span></div><span class="step-impact">+5 000–8 000 ₽</span></div><p>Маржа 18.8% и 11.9% при минимальном ДРР. Увеличение промо-бюджета в 2x принесёт дополнительные 5–8К при сохранении рентабельности.</p></div>
+    <div class="step" style="border-color:#3b82f6"><div class="step-top"><div class="step-left"><span class="step-num" style="background:#3b82f6">5</span><span class="step-title">Повысить выкуп Mass Former 20 капс</span></div><span class="step-impact">+5 000–7 000 ₽</span></div><p>Выкуп 56.3% — каждый второй заказ возвращается. Улучшить описание, добавить видео-обзоры, проверить соответствие фото/описания реальному товару.</p></div>
+    <div class="budget"><h4>Перераспределение рекламного бюджета</h4>
+      <div class="budget-body">
+        <p>Текущий бюджет: <strong style="color:#f59e0b">157 961 ₽</strong> → предлагаемый: <strong style="color:#10b981">~80 000 ₽</strong> (экономия 78К)</p>
+        <div class="budget-cols">
+          <div><div class="budget-col-title" style="color:#ef4444">Убрать / снизить:</div><div>JBL 860 белый: 31.5К → 0</div><div>JBL 860 синий: 10.7К → 0</div><div>JBL Pro 5 чёрный: 57.4К → 30К</div><div>Мыло: 1.5К → 0</div><div>Mass Former 40: 4.2К → 2К</div></div>
+          <div><div class="budget-col-title" style="color:#10b981">Увеличить:</div><div>Монталин: 1.1К → 3К</div><div>Эпимедиумная паста: 4К → 8К</div><div>Витамин Д3 К2: 9.2К → 12К</div><div>JBL Pro 5 золотой: 17.7К → 15К</div><div>Mass Former 20: 12.2К → 10К</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const products=[
+{id:1,name:"JBL Pro 5 чёрный",cat:"Наушники",rev:299090,profit:-13933,promo:-57370,drr:19.2,comm:38.0,log:6.4,cogs:35.8,orders:197,buyout:68.0,avgPrice:2232,margin:-1.8,action:"cut_promo",hypothesis:"Снизить ДРР до 10–12%. При текущей выручке 299К снижение промо на 25К выведет товар в плюс ~+11К. Товар уже имеет органический спрос (197 заказов) — тратить на рекламу 19% бессмысленно."},
+{id:2,name:"JBL 860 белый",cat:"Наушники",rev:57775,profit:-21121,promo:-31547,drr:54.6,comm:38.0,log:8.4,cogs:30.3,orders:36,buyout:69.4,avgPrice:2312,margin:-33.6,action:"stop_promo",hypothesis:"СТОП продвижение. ДРР 54.6% — каждый рубль выручки стоит 55 копеек рекламы. Полная остановка промо сэкономит 31.5К и переведёт товар в прибыль ~+10К."},
+{id:3,name:"JBL 860 синий",cat:"Наушники",rev:28590,profit:-4314,promo:-10742,drr:37.6,comm:37.6,log:9.9,cogs:24.5,orders:13,buyout:46.2,avgPrice:2859,margin:-11.7,action:"stop_promo",hypothesis:"СТОП продвижение + пересмотр цены. ДРР 37.6% при выкупе 46% — двойной удар. Только 6 из 13 заказов выкупается. Остановка промо + повышение цены на 10–15%."},
+{id:4,name:"Мыло хозяйственное",cat:"Мыло",rev:5210,profit:-913,promo:-1489,drr:28.6,comm:44.8,log:20.4,cogs:17.3,orders:14,buyout:57.1,avgPrice:521,margin:-14.1,action:"stop_promo",hypothesis:"Убрать из продвижения. Комиссия 44.8% + логистика 20.4% = 65% уходит маркетплейсу. Товар дешёвый (521₽), а логистика фиксированная — каждый заказ убыточен."},
+{id:5,name:"JBL Pro 5 золотой",cat:"Наушники",rev:49600,profit:-494,promo:-3745,drr:7.6,comm:37.9,log:10.0,cogs:40.3,orders:31,buyout:74.2,avgPrice:1985,margin:1.7,action:"raise_price",hypothesis:"Поднять цену на 5–7%. Себестоимость 40.3% — самая высокая среди наушников. Повышение цены на 100–150₽ даст +3–5К прибыли. Или пересмотреть закупочную цену."},
+{id:6,name:"Labubu брелок",cat:"Другое",rev:300,profit:-165,promo:0,drr:0,comm:20.0,log:10.5,cogs:116.7,orders:1,buyout:100,avgPrice:300,margin:-49.3,action:"remove",hypothesis:"Убрать из ассортимента. Себестоимость 350₽ при цене продажи 300₽ — товар продаётся в убыток даже без рекламы. Каждая продажа = гарантированный минус."},
+{id:7,name:"Витамин Д3 К2 10000",cat:"БАДы",rev:46168,profit:12515,promo:-9167,drr:19.9,comm:40.9,log:7.3,cogs:0,orders:50,buyout:60.0,avgPrice:1592,margin:29.5,action:"scale",hypothesis:"Масштабировать! Маржа 29.5% — лучшая в магазине. Увеличить бюджет промо на 30–50% для роста заказов. Оптимизировать карточку для повышения выкупа с 60% до 70%+."},
+{id:8,name:"Эпимедиумная паста",cat:"БАДы",rev:73999,profit:6436,promo:-4058,drr:5.5,comm:32.0,log:15.8,cogs:32.1,orders:118,buyout:67.8,avgPrice:841,margin:11.9,action:"scale",hypothesis:"Лидер по заказам (118). ДРР всего 5.5% — можно увеличить промо до 8–10% для роста объёма. При росте заказов на 30% прибыль вырастет на ~3–4К."},
+{id:9,name:"Mass Former 20 капс",cat:"Mass Former",rev:139573,profit:4336,promo:-12243,drr:8.8,comm:42.3,log:12.8,cogs:27.7,orders:103,buyout:56.3,avgPrice:1458,margin:5.9,action:"optimize",hypothesis:"Низкий выкуп 56.3% — главная проблема. Улучшить описание, фото, размер упаковки. Каждые +5% выкупа = +7К прибыли. Комиссия 42.3% — проверить категорию."},
+{id:10,name:"Монталин",cat:"БАДы",rev:34440,profit:5419,promo:-1139,drr:3.3,comm:32.0,log:13.0,cogs:30.5,orders:33,buyout:69.7,avgPrice:1148,margin:18.8,action:"scale",hypothesis:"Высокая маржа 18.8% при минимальном ДРР 3.3%. Увеличить промо-бюджет в 2–3 раза — потенциал роста заказов с 33 до 60–80."},
+{id:11,name:"Mass Former 60 капс",cat:"Mass Former",rev:33920,profit:1739,promo:-4427,drr:13.1,comm:34.0,log:5.4,cogs:35.5,orders:13,buyout:76.9,avgPrice:3392,margin:9.3,action:"optimize",hypothesis:"Хороший выкуп 76.9%, но высокий ДРР 13%. Снизить промо до 8% и перераспределить бюджет на Монталин/Эпимедиумную пасту."},
+{id:12,name:"Mass Former 40 капс",cat:"Mass Former",rev:27995,profit:367,promo:-4230,drr:15.1,comm:34.0,log:11.8,cogs:31.6,orders:12,buyout:66.7,avgPrice:2537,margin:5.2,action:"cut_promo",hypothesis:"ДРР 15.1% при марже 5.2% — промо съедает прибыль. Снизить ДРР до 8–10% или направить трафик на 60-капсульную версию."},
+{id:13,name:"JBL Pro 5 золотой (2)",cat:"Наушники",rev:141728,profit:3856,promo:-17701,drr:12.5,comm:37.7,log:9.5,cogs:32.2,orders:64,buyout:70.3,avgPrice:2457,margin:5.7,action:"optimize",hypothesis:"Прибыльный, но маржа тонкая (5.7%). Снижение ДРР с 12.5% до 8% добавит ~6К. Фокус на органическом продвижении: отзывы, инфографика."},
+{id:14,name:"Мыло 4шт",cat:"Мыло",rev:3376,profit:407,promo:0,drr:0,comm:44.5,log:16.1,cogs:21.3,orders:2,buyout:100,avgPrice:844,margin:15.8,action:"keep",hypothesis:"Без промо и в плюсе. Оставить как есть — маленький объём, но стабильная органическая маржа. Не масштабировать."},
+{id:15,name:"Мазь Монталин",cat:"БАДы",rev:900,profit:83,promo:0,drr:0,comm:32.0,log:16.6,cogs:33.7,orders:2,buyout:50.0,avgPrice:900,margin:13.9,action:"keep",hypothesis:"Маленький объём, но маржинальный. Добавить в карточку основного Монталина как кросс-продажу."}
+];
+const aL={stop_promo:"🛑 Стоп промо",cut_promo:"✂️ Снизить промо",raise_price:"💰 Поднять цену",remove:"🗑️ Убрать",scale:"🚀 Масштабировать",optimize:"⚙️ Оптимизировать",keep:"✅ Оставить"};
+const aC={stop_promo:"#dc2626",cut_promo:"#f59e0b",raise_price:"#8b5cf6",remove:"#6b7280",scale:"#10b981",optimize:"#3b82f6",keep:"#6b7280"};
+function fmt(n){return n!=null?n.toLocaleString("ru-RU"):"—"}
+function pct(n){return n!=null?n.toFixed(1)+"%":"—"}
+function showTab(id,btn){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['overview','products','plan'].forEach(t=>{document.getElementById('tab-'+t).classList.toggle('hidden',t!==id)});
+  if(id==='products')showList();
+}
+function showList(){
+  const el=document.getElementById('products-list'),d=document.getElementById('product-detail');
+  el.classList.remove('hidden');d.classList.add('hidden');
+  const s=[...products].sort((a,b)=>a.profit-b.profit);
+  let h='<div class="prod-hint">Нажмите на товар для подробного анализа и гипотезы</div>';
+  s.forEach(p=>{
+    const c=p.profit<0?'loss':'win',sg=p.profit<0?'':'+',$c=aC[p.action],dw=p.drr>20?'color:#f59e0b':'';
+    h+=`<div class="prod-item ${c}" onclick="showP(${p.id})"><div class="prod-top"><div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="prod-name">${p.name}</span><span class="badge" style="background:${$c}20;color:${$c}">${aL[p.action]}</span></div><span class="prod-profit" style="color:${p.profit<0?'#ef4444':'#10b981'}">${sg}${fmt(p.profit)} ₽</span></div><div class="prod-meta"><span>Выручка: ${fmt(p.rev)}</span><span>Заказы: ${p.orders}</span><span>Выкуп: ${pct(p.buyout)}</span><span style="${dw}">ДРР: ${pct(p.drr)}</span><span>Комиссия: ${pct(p.comm)}</span></div></div>`;
+  });
+  el.innerHTML=h;
+}
+function br(l,v,c,w){const W=Math.min(v,100),lc=w?c:'#9ca3af',ic=w?'⚠ ':'';return `<div class="bar-row"><div class="bar-label" style="color:${lc};font-weight:${w?600:400}">${ic}${l}</div><div class="bar-track"><div class="bar-fill" style="width:${W}%;background:${c}${w?'80':'40'}"></div></div><div class="bar-val" style="color:${lc}">${pct(v)}</div></div>`}
+function showP(id){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  document.getElementById('products-list').classList.add('hidden');
+  const d=document.getElementById('product-detail');d.classList.remove('hidden');
+  const $c=aC[p.action];
+  d.innerHTML=`<button class="back-btn" onclick="showList()">← Назад к списку</button>
+  <div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:8px"><div><h3 style="margin-bottom:4px">${p.name}</h3><span style="font-size:12px;color:#6b7280">${p.cat} · Ср. цена ${fmt(p.avgPrice)} ₽</span></div><span class="badge" style="background:${$c}20;color:${$c};padding:4px 12px;border-radius:6px;font-weight:700;font-size:11px">${aL[p.action]}</span></div>
+  <div class="detail-metrics"><div class="dm"><div class="dl">Чистая прибыль</div><div class="dv" style="color:${p.profit<0?'#ef4444':'#10b981'}">${fmt(p.profit)} ₽</div></div><div class="dm"><div class="dl">Выручка</div><div class="dv">${fmt(p.rev)} ₽</div></div><div class="dm"><div class="dl">Заказы</div><div class="dv">${p.orders}</div></div><div class="dm"><div class="dl">Маржа</div><div class="dv" style="color:${p.margin<0?'#ef4444':'#10b981'}">${pct(p.margin)}</div></div></div>
+  <h4 style="font-size:13px;font-weight:600;color:#9ca3af;margin:0 0 10px">Структура затрат (% от выручки)</h4>
+  ${br('Комиссия',p.comm,'#ef4444',p.comm>38)}${br('Себестоимость',p.cogs,'#8b5cf6',p.cogs>35)}${br('Продвижение (ДРР)',p.drr,'#f59e0b',p.drr>15)}${br('Логистика',p.log,'#3b82f6',p.log>12)}
+  <div class="bar-row" style="margin-top:2px"><div class="bar-label" style="color:#6b7280">Выкуп</div><div class="bar-track"><div class="bar-fill" style="width:${p.buyout}%;background:${p.buyout<60?'#ef444460':'#10b98140'}"></div></div><div class="bar-val" style="color:${p.buyout<60?'#ef4444':'#10b981'}">${pct(p.buyout)}</div></div></div>
+  <div class="hypo"><h4>Гипотеза и рекомендация</h4><p>${p.hypothesis}</p></div>`;
+}
+showList();
+</script>
+</body>
+</html>
