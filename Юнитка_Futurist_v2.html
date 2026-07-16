@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Юнит-экономика Futurist v2 — Ozon Global</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#060811}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#0a0e1a}
+::-webkit-scrollbar-thumb{background:#2d3748;border-radius:3px}
+input[type=number]::-webkit-inner-spin-button{opacity:.6}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.5/babel.min.js"></script>
+<script type="text/babel">
+const{useState,useMemo,useCallback,useRef,useEffect}=React;
+// s=sku,n=name,c=cost$,p=price$,f=fee%,gl=gbs_logist$,ol=ozon_logist_pvz$,dr=drr%,w=weight_kg,sc=scenario
+const D=[
+{s:"ps5pro",n:"PS5 Pro 2Tb",c:866,p:1460,f:13,gl:65,ol:9.45,dr:3,w:7.9},
+{s:"ps5slimblueray",n:"PS5 Slim Blu-Ray",c:586,p:845,f:13,gl:45,ol:5.28,dr:3,w:4},
+{s:"ps5slimdigital",n:"PS5 Slim Digital ✱",c:531,p:830,f:13,gl:45,ol:5.28,dr:3,w:4},
+{s:"dualsense-black",n:"DualSense Черный",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-pink",n:"DualSense Розовый",c:57,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-cosmic-red",n:"DualSense Cosmic Red",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-blue",n:"DualSense Голубой",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-galactic-purple",n:"DualSense Galactic Purple",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-volcanic-red",n:"DualSense Volcanic Red",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-camouflage",n:"DualSense Камуфляж",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-cobalt-blue",n:"DualSense Cobalt Blue",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-chroma-indigo",n:"DualSense Chroma Indigo",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-pearl",n:"DualSense Pearl",c:57,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-silver",n:"DualSense Серебристый",c:55,p:120,f:12,gl:25,ol:3.14,dr:3,w:1.1},
+{s:"dualsense-white",n:"DualSense Белый",c:56,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense-chroma-teal",n:"DualSense Chroma Teal",c:58,p:120,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"fc26ps5",n:"FC 26 PS5",c:33,p:90,f:15.5,gl:25,ol:3.46,dr:3,w:1.5},
+{s:"ghostps5",n:"Ghost of Yotei PS5",c:60,p:250,f:15.5,gl:25,ol:3.46,dr:3,w:1.5},
+{s:"a56olive 8/128",n:"Samsung A56 8/128 олив",c:292,p:408,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a56black 8/128",n:"Samsung A56 8/128 черн",c:257,p:350,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a56gray 8/128",n:"Samsung A56 8/128 сер",c:251,p:350,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a56gray 8/256",n:"Samsung A56 8/256 сер",c:286,p:650,f:7,gl:15,ol:3.27,dr:3,w:1},
+{s:"a56black 8/256",n:"Samsung A56 8/256 черн",c:316,p:650,f:7,gl:15,ol:3.27,dr:3,w:1},
+{s:"a56pink 8/256",n:"Samsung A56 8/256 роз",c:286,p:650,f:7,gl:15,ol:3.27,dr:3,w:1},
+{s:"a56olive 8/256",n:"Samsung A56 8/256 олив",c:319,p:650,f:7,gl:15,ol:3.27,dr:3,w:1},
+{s:"switch2",n:"Switch 2 ✱",c:451,p:610,f:13,gl:65,ol:10.35,dr:1,w:8.3},
+{s:"switch2_mario",n:"Switch 2+Mario ✱",c:512,p:650,f:13,gl:65,ol:10.35,dr:1,w:8.3},
+{s:"⚠ switch2 СЦЕНАРИЙ",n:"Switch 2 — ПАДЕНИЕ ЦЕНЫ",c:451,p:610,f:13,gl:65,ol:10.35,dr:1,w:8.3,sc:1},
+{s:"⚠ switch2_mario СЦЕНАРИЙ",n:"Switch 2+Mario — ПАДЕНИЕ",c:512,p:650,f:13,gl:65,ol:10.35,dr:1,w:8.3,sc:1},
+{s:"buds3prosilver",n:"Galaxy Buds 3 Pro серебр",c:117,p:161,f:7,gl:15,ol:2.09,dr:3,w:.6},
+{s:"buds3pro_white",n:"Galaxy Buds 3 Pro белый",c:124,p:180,f:7,gl:15,ol:2.09,dr:3,w:.6},
+{s:"a26white128",n:"Samsung A26 6/128 бел",c:178,p:240,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a26pink128",n:"Samsung A26 6/128 роз",c:178,p:240,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a26pink256",n:"Samsung A26 8/256 роз",c:173,p:320,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a26white256",n:"Samsung A26 8/256 бел",c:173,p:320,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a26black256",n:"Samsung A26 8/256 черн",c:173,p:320,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"a26black128",n:"Samsung A26 6/128 черн",c:178,p:225,f:7,gl:15,ol:3.14,dr:3,w:1},
+{s:"psvr2",n:"PlayStation VR2",c:346,p:530,f:13,gl:65,ol:10.84,dr:3,w:9.5},
+{s:"psportal(white)",n:"PS Portal белый",c:240,p:390,f:13,gl:45,ol:5.06,dr:3,w:3.6},
+{s:"psportal(black)",n:"PS Portal черный",c:240,p:390,f:13,gl:45,ol:5.06,dr:3,w:3.6},
+{s:"iPad Yellow 256gb",n:"iPad A16 256Gb желт",c:420,p:600,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"iPad Blue 256gb",n:"iPad A16 256Gb голуб",c:422,p:560,f:7,gl:15,ol:2.55,dr:3,w:.9},
+{s:"iPad Pink 128gb",n:"iPad A16 128Gb роз",c:313,p:465,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"iPad Blue 128gb",n:"iPad A16 128Gb голуб",c:313,p:445,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"iPad Silver 256gb",n:"iPad A16 256Gb серебр",c:422,p:560,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"iPad Yellow 128gb",n:"iPad A16 128Gb желт",c:313,p:445,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"iPad Silver 128gb",n:"iPad A16 128Gb серебр",c:313,p:445,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"iPad Pink 256gb",n:"iPad A16 256Gb роз",c:431,p:560,f:7,gl:25,ol:3.56,dr:3,w:1.8},
+{s:"ps5charger",n:"Зарядная станция DualSense",c:25,p:78,f:12,gl:15,ol:1.97,dr:3,w:.7},
+{s:"ps5elite_white",n:"PULSE Elite белый",c:120,p:193,f:15.5,gl:45,ol:5.28,dr:3,w:3.6},
+{s:"ps5elite_black",n:"PULSE Elite черный",c:120,p:193,f:15.5,gl:45,ol:5.28,dr:3,w:3.6},
+{s:"ps5ddrive",n:"Sony PS5 Disc Drive",c:82,p:146,f:12,gl:45,ol:4.76,dr:3,w:3},
+{s:"magic_trackpad_black",n:"Magic Trackpad черн",c:125,p:235,f:15.5,gl:15,ol:3.14,dr:3,w:1},
+{s:"magic_trackpad_white",n:"Magic Trackpad бел",c:123,p:203,f:15.5,gl:15,ol:3.14,dr:3,w:1},
+{s:"magic_keyboard_w_11",n:"Magic Keyboard 11\" бел",c:286,p:358,f:7,gl:25,ol:3.14,dr:3,w:1.1},
+{s:"magic_keyboard_b_11",n:"Magic Keyboard 11\" черн",c:316,p:450,f:7,gl:25,ol:3.14,dr:3,w:1.1},
+{s:"airtag_4pcs",n:"Apple AirTag 4 шт",c:69,p:110,f:7,gl:10,ol:2.09,dr:3,w:.5},
+{s:"apple_tv_64gb",n:"Apple TV 4K 64gb",c:123,p:189,f:15.5,gl:15,ol:2.66,dr:3,w:.8},
+{s:"apple_tv_128gb",n:"Apple TV 4K 128gb ✱",c:144,p:219,f:15.5,gl:15,ol:2.66,dr:3,w:.8},
+{s:"dualsense_edge_white",n:"DualSense Edge белый",c:177,p:255,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"dualsense_edge_black",n:"DualSense Edge черный",c:176,p:255,f:12,gl:25,ol:3.71,dr:3,w:1.9},
+{s:"magic_keyboard_12.9",n:"Magic Keyboard 12.9\" черн",c:259,p:350,f:7,gl:25,ol:3.46,dr:3,w:1.5},
+{s:"kodak_6pcs",n:"Kodak Charmera 6 шт",c:163,p:600,f:13,gl:45,ol:3.86,dr:3,w:2.1},
+{s:"kodak_1pc",n:"Kodak Charmera 1 шт",c:26,p:61,f:13,gl:10,ol:1.97,dr:3,w:.3},
+{s:"airpods4_anc",n:"AirPods 4 ANC",c:159,p:230,f:7,gl:10,ol:1.27,dr:3,w:.2},
+{s:"airpods4",n:"AirPods 4",c:105,p:150,f:7,gl:10,ol:1.27,dr:3,w:.2},
+{s:"iPhone17 256 black",n:"iPhone 17 256Gb черн",c:777,p:1250,f:7,gl:10,ol:2.17,dr:3,w:.5},
+{s:"iPhone17 256 sage",n:"iPhone 17 256Gb серо-зел",c:777,p:1250,f:7,gl:10,ol:2.17,dr:3,w:.5},
+{s:"iPhone17 256 blue",n:"iPhone 17 256Gb синий",c:777,p:1250,f:7,gl:10,ol:2.17,dr:3,w:.5},
+{s:"iPhone17 256 white",n:"iPhone 17 256Gb белый",c:777,p:1250,f:7,gl:10,ol:2.17,dr:3,w:.5},
+{s:"iPhone17 256 lavender",n:"iPhone 17 256Gb лаванд",c:777,p:1250,f:7,gl:10,ol:2.17,dr:3,w:.5},
+{s:"airpods pro3",n:"AirPods Pro 3 ✱",c:195,p:350,f:7,gl:15,ol:2.55,dr:3,w:.6},
+{s:"xbox_gamepad_white",n:"Xbox Controller белый",c:41,p:240,f:12,gl:15,ol:3.14,dr:3,w:.8},
+{s:"xbox_gamepad_black",n:"Xbox Controller черный",c:41,p:240,f:12,gl:15,ol:3.14,dr:3,w:.8},
+{s:"galaxy_fit3_pink",n:"Galaxy Fit 3 роз-золот",c:26,p:150,f:7,gl:10,ol:1.97,dr:3,w:.4},
+{s:"galaxy_fit3_silver",n:"Galaxy Fit 3 серебр",c:26,p:150,f:7,gl:10,ol:1.97,dr:3,w:.4},
+{s:"galaxy_fit3_gray",n:"Galaxy Fit 3 серый",c:26,p:150,f:7,gl:10,ol:1.97,dr:3,w:.4},
+{s:"Sony XM6 blue",n:"Sony WH-1000XM6 синий",c:290,p:420,f:7,gl:25,ol:3.14,dr:3,w:1.2},
+{s:"Sony XM6 white",n:"Sony WH-1000XM6 белый",c:290,p:420,f:7,gl:25,ol:3.14,dr:3,w:1.2},
+{s:"Sony XM6 black",n:"Sony WH-1000XM6 черный",c:290,p:420,f:7,gl:25,ol:3.14,dr:3,w:1.2},
+{s:"apple_charger_35W",n:"Apple USB-C 35W",c:22,p:56,f:7,gl:15,ol:2.09,dr:3,w:.6},
+{s:"apple_charger_140W",n:"Apple USB-C 140W",c:55,p:100,f:7,gl:10,ol:2.09,dr:3,w:.5},
+{s:"apple_charger_20W",n:"Apple USB-C 20W",c:12,p:35,f:7,gl:10,ol:1.49,dr:3,w:.2},
+{s:"MHFA4 Silver",n:"MacBook NEO 13\" серебр",c:700,p:1150,f:7,gl:45,ol:3.56,dr:3,w:2.1},
+];
+
+const ACQ_PCT=1.5;
+
+function eng(p,c,f,gl,ol,dr){
+  const com=p*f/100;const acq=p*ACQ_PCT/100;const ads=p*dr/100;
+  const total=c+com+gl+ol+acq+ads;
+  const profit=p-total;const margin=p>0?(profit/p)*100:0;
+  const fixed=c+gl+ol;const vr=f/100+ACQ_PCT/100+dr/100;
+  const minP=vr<1?fixed/(1-vr):99999;
+  const optP=(1-vr-.15)>0?fixed/(1-vr-.15):99999;
+  return{com,acq,ads,total,profit,margin,minP,optP};
+}
+
+function Ed({value,onChange,color,pct}){
+  const[editing,setEditing]=useState(false);
+  const[draft,setDraft]=useState(String(value));
+  const ref=useRef(null);
+  useEffect(()=>{if(editing&&ref.current){ref.current.focus();ref.current.select()}},[editing]);
+  const commit=()=>{const v=parseFloat(draft);if(!isNaN(v)&&v>=0)onChange(v);else setDraft(String(value));setEditing(false)};
+  if(editing)return <input ref={ref} value={draft} onChange={e=>setDraft(e.target.value)} onBlur={commit} onKeyDown={e=>{if(e.key==="Enter")commit();if(e.key==="Escape"){setDraft(String(value));setEditing(false)}}} style={{width:pct?55:70,background:"#1c1917",border:`2px solid ${color}`,borderRadius:4,padding:"2px 5px",fontSize:11,fontFamily:"'Fira Code',monospace",color,fontWeight:700,textAlign:"right",outline:"none"}}/>;
+  const display=pct?value.toFixed(1)+"%":"$"+Math.round(value).toLocaleString("ru-RU");
+  return <span onClick={()=>{setDraft(pct?String(value):String(Math.round(value)));setEditing(true)}} style={{cursor:"pointer",borderBottom:`1px dashed ${color}44`,padding:"1px 3px",borderRadius:2,fontFamily:"'Fira Code',monospace",fontWeight:600,color,fontSize:11}} title="Нажмите для редакт.">{display}</span>;
+}
+
+function MBar({margin}){
+  const w=Math.min(Math.max(margin+5,0),80);
+  const col=margin>=20?"#059669":margin>=10?"#d97706":margin>0?"#ef4444":"#991b1b";
+  return <div style={{display:"flex",alignItems:"center",minWidth:100}}>
+    <div style={{flex:1,height:15,background:"#1e293b",borderRadius:3,overflow:"hidden",position:"relative"}}>
+      <div style={{width:`${w}%`,height:"100%",background:col,borderRadius:3,transition:"width .3s"}}/>
+      <div style={{position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:800,color:"#fff",fontFamily:"'Fira Code',monospace",textShadow:"0 1px 3px rgba(0,0,0,.8)"}}>{margin.toFixed(1)}%</div>
+    </div>
+  </div>;
+}
+
+function App(){
+  const[costs,setCosts]=useState(()=>{const m={};D.forEach((i,idx)=>{m[idx]=i.c});return m});
+  const[prices,setPrices]=useState(()=>{const m={};D.forEach((i,idx)=>{m[idx]=i.p});return m});
+  const[drrs,setDrrs]=useState(()=>{const m={};D.forEach((i,idx)=>{m[idx]=i.dr});return m});
+  const[usdRub,setUsdRub]=useState(82);
+  const[search,setSearch]=useState("");
+  const[sortKey,setSortKey]=useState("margin");
+  const[sortAsc,setSortAsc]=useState(false);
+  const[filter,setFilter]=useState("all");
+  const[cur,setCur]=useState("USD");
+
+  const k=cur==="RUB"?usdRub:1;const sym=cur==="RUB"?"₽":"$";
+
+  const rows=useMemo(()=>{
+    let arr=D.map((item,idx)=>{
+      const cost=costs[idx]??item.c;const price=prices[idx]??item.p;const drr=drrs[idx]??item.dr;
+      const e=eng(price,cost,item.f,item.gl,item.ol,drr);
+      return{...item,idx,cost,price,drr,...e,costCh:Math.abs(cost-item.c)>.5,priceCh:Math.abs(price-item.p)>.5,drrCh:Math.abs(drr-item.dr)>.05};
+    });
+    if(search){const q=search.toLowerCase();arr=arr.filter(r=>r.s.toLowerCase().includes(q)||r.n.toLowerCase().includes(q))}
+    if(filter==="good")arr=arr.filter(r=>r.margin>=20);
+    else if(filter==="mid")arr=arr.filter(r=>r.margin>=10&&r.margin<20);
+    else if(filter==="bad")arr=arr.filter(r=>r.margin<10);
+    else if(filter==="scenario")arr=arr.filter(r=>r.sc);
+    arr.sort((a,b)=>{const key=sortKey;if(key==="name")return sortAsc?a.s.localeCompare(b.s):b.s.localeCompare(a.s);const va=key==="price"?a.price:key==="cost"?a.cost:key==="margin"?a.margin:key==="profit"?a.profit:key==="drr"?a.drr:a.profit;const vb=key==="price"?b.price:key==="cost"?b.cost:key==="margin"?b.margin:key==="profit"?b.profit:key==="drr"?b.drr:b.profit;return sortAsc?va-vb:vb-va});
+    return arr;
+  },[costs,prices,drrs,search,filter,sortKey,sortAsc,usdRub]);
+
+  const all=D.map((item,idx)=>eng(prices[idx]??item.p,costs[idx]??item.c,item.f,item.gl,item.ol,drrs[idx]??item.dr));
+  const avgMargin=all.length?all.reduce((s,r)=>s+r.margin,0)/all.length:0;
+  const good=all.filter(r=>r.margin>=20).length;
+  const mid2=all.filter(r=>r.margin>=10&&r.margin<20).length;
+  const bad=all.filter(r=>r.margin<10).length;
+  const edited=rows.filter(r=>r.costCh||r.priceCh||r.drrCh).length;
+
+  const handleSort=k2=>{if(sortKey===k2)setSortAsc(!sortAsc);else{setSortKey(k2);setSortAsc(false)}};
+  const resetAll=()=>{const cm={},pm={},dm={};D.forEach((i,idx)=>{cm[idx]=i.c;pm[idx]=i.p;dm[idx]=i.dr});setCosts(cm);setPrices(pm);setDrrs(dm)};
+
+  const th=(key,minW,align)=>({padding:"7px 4px",textAlign:align||"right",fontSize:9,color:sortKey===key?"#f1f5f9":"#64748b",fontWeight:700,borderBottom:sortKey===key?"2px solid #818cf8":"2px solid #1e293b",cursor:"pointer",userSelect:"none",position:"sticky",top:0,background:"#0b0f1a",zIndex:2,letterSpacing:.3,textTransform:"uppercase",whiteSpace:"nowrap",minWidth:minW||"auto"});
+
+  return <div style={{minHeight:"100vh",background:"#060811",color:"#e2e8f0",fontFamily:"'Outfit',sans-serif",padding:"16px 12px"}}>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <div style={{maxWidth:1450,margin:"0 auto"}}>
+      <div style={{display:"flex",alignItems:"baseline",gap:10,marginBottom:3}}>
+        <h1 style={{fontSize:22,fontWeight:800,margin:0,background:"linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>ЮНИТ-ЭКОНОМИКА FUTURIST v2</h1>
+        <span style={{fontSize:11,color:"#475569"}}>Ozon Global · ОАЭ→РФ · {D.length} позиций</span>
+      </div>
+      <p style={{color:"#64748b",margin:"0 0 10px",fontSize:11}}>
+        ✱ Обновлённые закупки · ✏️ Нажмите на <span style={{color:"#fbbf24"}}>себест.</span> / <span style={{color:"#60a5fa"}}>цену</span> / <span style={{color:"#f472b6"}}>ДРР%</span> — пересчёт мгновенный · Логистика: GBS Express ОАЭ→РФ + Ozon до ПВЗ · Эквайринг {ACQ_PCT}%
+      </p>
+
+      <div style={{display:"flex",gap:6,marginBottom:12,flexWrap:"wrap",alignItems:"end"}}>
+        <div style={{background:"#111827",borderRadius:7,padding:"5px 8px"}}>
+          <div style={{fontSize:8,color:"#475569",textTransform:"uppercase"}}>USD/RUB</div>
+          <input type="number" value={usdRub} onChange={e=>setUsdRub(+e.target.value||82)} style={{width:65,background:"#0a0e1a",border:"1px solid #1e293b",borderRadius:5,padding:"3px 6px",color:"#60a5fa",fontSize:14,fontWeight:700,fontFamily:"Fira Code",outline:"none"}}/>
+        </div>
+        <div style={{display:"flex",gap:2}}>
+          {["USD","RUB"].map(c=><button key={c} onClick={()=>setCur(c)} style={{padding:"7px 14px",borderRadius:6,border:"none",background:cur===c?"#3b82f6":"#111827",color:cur===c?"#fff":"#475569",fontWeight:700,fontSize:12,cursor:"pointer"}}>{c==="RUB"?"₽ RUB":"$ USD"}</button>)}
+        </div>
+        <input placeholder="🔍 Поиск..." value={search} onChange={e=>setSearch(e.target.value)} style={{background:"#111827",border:"1px solid #1e293b",borderRadius:6,padding:"7px 10px",color:"#e2e8f0",fontSize:11,width:180,outline:"none"}}/>
+        <div style={{display:"flex",gap:2}}>
+          {[["all",`Все`,"#64748b"],["good",`★${good}`,"#059669"],["mid",`◆${mid2}`,"#d97706"],["bad",`✕${bad}`,"#ef4444"],["scenario","⚠️","#f59e0b"]].map(([v,l,bg])=>
+            <button key={v} onClick={()=>setFilter(v)} style={{padding:"5px 8px",borderRadius:5,border:filter===v?`1px solid ${bg}`:"1px solid transparent",background:filter===v?bg+"18":"#111827",color:filter===v?bg:"#475569",fontSize:10,fontWeight:600,cursor:"pointer"}}>{l}</button>
+          )}
+        </div>
+        {edited>0&&<button onClick={resetAll} style={{padding:"5px 10px",borderRadius:5,border:"1px solid #f59e0b33",background:"#f59e0b11",color:"#f59e0b",fontSize:10,fontWeight:600,cursor:"pointer"}}>↺ Сброс ({edited})</button>}
+      </div>
+
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:6,marginBottom:12}}>
+        {[["Ø Маржа",avgMargin.toFixed(1)+"%","все позиции",avgMargin>=15?"#10b981":"#f59e0b"],["★ Маржа ≥20%",good+" товаров",`${(good/D.length*100).toFixed(0)}%`,"#10b981"],["◆ Маржа 10-20%",mid2+" товаров","норма","#d97706"],["✕ Маржа <10%",bad+" товаров","внимание",bad>10?"#ef4444":"#f59e0b"]].map(([t,v,s,c],i)=>
+          <div key={i} style={{background:c+"08",border:`1px solid ${c}22`,borderRadius:8,padding:"8px 10px",textAlign:"center"}}>
+            <div style={{fontSize:8,color:"#64748b",textTransform:"uppercase",letterSpacing:.5}}>{t}</div>
+            <div style={{fontSize:18,fontWeight:800,color:c,fontFamily:"Fira Code",margin:"2px 0"}}>{v}</div>
+            <div style={{fontSize:9,color:"#475569"}}>{s}</div>
+          </div>
+        )}
+      </div>
+
+      <div style={{background:"#0b0f1a",borderRadius:8,border:"1px solid #1e293b",overflow:"auto",maxHeight:"68vh"}}>
+        <table style={{width:"100%",borderCollapse:"collapse"}}>
+          <thead><tr>
+            <th onClick={()=>handleSort("name")} style={{...th("name",170,"left")}}>Артикул</th>
+            <th onClick={()=>handleSort("price")} style={th("price",70)}>Цена ✏️</th>
+            <th onClick={()=>handleSort("cost")} style={th("cost",70)}>Себест ✏️</th>
+            <th style={{...th("",40,"center"),cursor:"default"}}>Ком%</th>
+            <th style={{...th("",55,"right"),cursor:"default"}}>GBS ОАЭ</th>
+            <th style={{...th("",45,"right"),cursor:"default"}}>До ПВЗ</th>
+            <th style={{...th("",45,"right"),cursor:"default"}}>Экв.</th>
+            <th onClick={()=>handleSort("drr")} style={th("drr",55,"center")}>ДРР% ✏️</th>
+            <th onClick={()=>handleSort("profit")} style={th("profit",75)}>Прибыль</th>
+            <th onClick={()=>handleSort("margin")} style={{...th("margin",105,"center")}}>Маржа %</th>
+            <th style={{...th("",140,"center"),cursor:"default"}}>Мин → Опт</th>
+          </tr></thead>
+          <tbody>
+            {rows.map((r,i)=>{
+              const bg=r.sc?"#1a1200":i%2===0?"#0b0f1a":"#0e1324";
+              const rowBg=(r.costCh||r.priceCh||r.drrCh)?"#1a1800":bg;
+              const mCol=r.margin>=20?"#059669":r.margin>=10?"#d97706":r.margin>0?"#ef4444":"#991b1b";
+              const zone=r.price>=r.optP?"opt":r.price>=r.minP?"mid":"loss";
+              const zC={opt:"#059669",mid:"#d97706",loss:"#ef4444"};
+              const zL={opt:"≥опт",mid:"≥мин",loss:"<мин"};
+              return <tr key={r.idx} style={{background:rowBg,borderLeft:r.sc?"3px solid #f59e0b":"none"}}>
+                <td style={{padding:"5px 6px",borderBottom:"1px solid #111827"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:4}}>
+                    {(r.costCh||r.priceCh||r.drrCh)&&<span style={{fontSize:7,color:"#f59e0b"}}>●</span>}
+                    <div>
+                      <div style={{fontWeight:600,fontSize:11,color:r.sc?"#f59e0b":"#f1f5f9"}}>{r.s}</div>
+                      <div style={{fontSize:9,color:"#475569",maxWidth:160,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.n}</div>
+                    </div>
+                  </div>
+                </td>
+                <td style={{padding:"5px 4px",textAlign:"right",borderBottom:"1px solid #111827"}}>
+                  <Ed value={r.price*(cur==="RUB"?1:1)} onChange={v=>setPrices(prev=>({...prev,[r.idx]:v}))} color="#60a5fa"/>
+                </td>
+                <td style={{padding:"5px 4px",textAlign:"right",borderBottom:"1px solid #111827"}}>
+                  <Ed value={r.cost} onChange={v=>setCosts(prev=>({...prev,[r.idx]:v}))} color="#fbbf24"/>
+                </td>
+                <td style={{padding:"5px 3px",textAlign:"center",borderBottom:"1px solid #111827",fontSize:10,color:"#64748b",fontFamily:"Fira Code"}}>{r.f}%</td>
+                <td style={{padding:"5px 3px",textAlign:"right",borderBottom:"1px solid #111827",fontSize:10,color:"#06b6d4",fontFamily:"Fira Code"}}>${r.gl}</td>
+                <td style={{padding:"5px 3px",textAlign:"right",borderBottom:"1px solid #111827",fontSize:10,color:"#8b5cf6",fontFamily:"Fira Code"}}>${r.ol.toFixed(1)}</td>
+                <td style={{padding:"5px 3px",textAlign:"right",borderBottom:"1px solid #111827",fontSize:10,color:"#64748b",fontFamily:"Fira Code"}}>${r.acq.toFixed(1)}</td>
+                <td style={{padding:"5px 3px",textAlign:"center",borderBottom:"1px solid #111827"}}>
+                  <Ed value={r.drr} onChange={v=>setDrrs(prev=>({...prev,[r.idx]:v}))} color="#f472b6" pct/>
+                </td>
+                <td style={{padding:"5px 4px",textAlign:"right",borderBottom:"1px solid #111827",fontFamily:"Fira Code",fontWeight:700,fontSize:11,color:mCol}}>
+                  {sym}{Math.round(r.profit*k).toLocaleString("ru-RU")}
+                </td>
+                <td style={{padding:"5px 4px",borderBottom:"1px solid #111827"}}><MBar margin={r.margin}/></td>
+                <td style={{padding:"5px 4px",borderBottom:"1px solid #111827"}}>
+                  <div style={{display:"flex",gap:5,alignItems:"center",fontSize:10,fontFamily:"Fira Code"}}>
+                    <span style={{color:"#ef4444"}} title="Мин (0%)">{sym}{Math.round(r.minP*k).toLocaleString("ru-RU")}</span>
+                    <span style={{color:"#334155"}}>→</span>
+                    <span style={{color:"#10b981"}} title="Опт (15%)">{sym}{Math.round(r.optP*k).toLocaleString("ru-RU")}</span>
+                    <span style={{fontSize:8,padding:"1px 4px",borderRadius:6,background:zC[zone]+"22",color:zC[zone],fontWeight:700}}>{zL[zone]}</span>
+                  </div>
+                </td>
+              </tr>;
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <div style={{marginTop:8,padding:"7px 12px",background:"#111827",borderRadius:7,fontSize:9,color:"#475569",lineHeight:1.8}}>
+        <span style={{color:"#94a3b8",fontWeight:600}}>Расчёт:</span> Расходы = Себест. + Комиссия(%) + <span style={{color:"#06b6d4"}}>GBS ОАЭ→РФ</span> + <span style={{color:"#8b5cf6"}}>Ozon до ПВЗ</span> + Эквайринг({ACQ_PCT}%) + Реклама(ДРР%) ·
+        <span style={{color:"#ef4444"}}> Мин</span> = 0% маржи · <span style={{color:"#10b981"}}> Опт</span> = 15% маржи ·
+        GBS Express: &lt;0.5кг=$10 | 0.5-1кг=$15 | 1-2кг=$25 | 2-5кг=$45 | 5-10кг=$65 | 10кг+=$80 ·
+        ✱ = обновлённая закупка · ⚠ = сценарий с упавшей ценой
+      </div>
+    </div>
+  </div>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
