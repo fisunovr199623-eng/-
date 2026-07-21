@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Стратегия роста Prosto Home → 100 млн ₽/мес</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0d1117;color:#c9d1d9;line-height:1.6}
+.wrap{max-width:1500px;margin:0 auto;padding:20px}
+h1{font-size:32px;color:#58a6ff;margin-bottom:6px;font-weight:800}
+.sub{color:#8b949e;font-size:13px;margin-bottom:24px}
+.hero{background:linear-gradient(135deg,#1f2937 0%,#0d1117 100%);border:2px solid #2F5496;border-radius:12px;padding:24px;margin-bottom:24px}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px}
+.hero-metric{text-align:center}
+.hero-metric .l{font-size:11px;color:#8b949e;text-transform:uppercase;letter-spacing:1px}
+.hero-metric .v{font-size:34px;font-weight:800;margin:6px 0}
+.hero-metric .d{font-size:12px;color:#8b949e}
+.pri{color:#58a6ff}.ok{color:#3fb950}.warn{color:#d29922}.bad{color:#f85149}
+.s{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:20px}
+.s h2{font-size:20px;color:#58a6ff;margin-bottom:14px;border-bottom:2px solid #30363d;padding-bottom:8px}
+.s h3{font-size:15px;color:#c9d1d9;margin:18px 0 10px}
+.s h4{font-size:13px;color:#8b949e;margin:12px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.problems{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.prob{background:#1a1512;border-left:4px solid #f85149;padding:14px;border-radius:0 8px 8px 0}
+.prob h3{color:#f85149;font-size:15px;margin:0 0 8px}
+.prob p{font-size:13px;color:#c9d1d9}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th{background:#21262d;color:#8b949e;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.4px;padding:10px 8px;text-align:right;border-bottom:2px solid #30363d;white-space:nowrap}
+th:first-child{text-align:left}
+td{padding:9px 8px;border-bottom:1px solid #1c2128;text-align:right}
+td:first-child{text-align:left;font-weight:500;color:#c9d1d9}
+tr:hover{background:#1c2128}
+tr.t{background:#1c2128;font-weight:700;border-top:2px solid #30363d}
+tr.t td{color:#58a6ff;padding:11px 8px;font-size:14px}
+.b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.bg{background:#0d3321;color:#3fb950}.br{background:#3d1418;color:#f85149}.by{background:#3d2e00;color:#d29922}.bb{background:#0c2d6b;color:#58a6ff}
+.n{background:#1c2128;border-left:3px solid #58a6ff;padding:10px 14px;margin:8px 0;border-radius:0 6px 6px 0;font-size:12px}
+.n.r{border-color:#f85149}.n.g{border-color:#3fb950}.n.y{border-color:#d29922}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:900px){.g2,.g3,.hero-grid,.problems{grid-template-columns:1fr}}
+.channel-card{background:#0d1117;border:1px solid #30363d;border-radius:10px;padding:16px}
+.channel-card.pri{border-color:#58a6ff}
+.channel-card.mid{border-color:#3fb950}
+.channel-card.new{border-color:#d29922}
+.channel-card h3{font-size:16px;margin-bottom:8px}
+.chan-num{font-size:28px;font-weight:800;margin:8px 0}
+.chan-desc{font-size:12px;color:#8b949e;margin-bottom:10px}
+.chan-actions{font-size:12px;color:#c9d1d9;padding-top:10px;border-top:1px solid #21262d}
+.timeline{border-left:3px solid #30363d;padding-left:20px;margin:16px 0}
+.phase{margin-bottom:20px;position:relative}
+.phase::before{content:'';position:absolute;left:-27px;top:6px;width:12px;height:12px;background:#58a6ff;border-radius:50%;border:3px solid #0d1117}
+.phase h3{color:#58a6ff;font-size:15px;margin-bottom:6px}
+.phase p{font-size:12px;color:#8b949e}
+.metric-box{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px;text-align:center}
+.metric-box .l{font-size:10px;color:#8b949e;text-transform:uppercase}
+.metric-box .v{font-size:20px;font-weight:700;color:#58a6ff;margin:4px 0}
+.metric-box .d{font-size:11px;color:#8b949e}
+.tag{display:inline-block;background:#21262d;color:#c9d1d9;padding:2px 8px;border-radius:4px;font-size:11px;margin:2px}
+.action-list{list-style:none;padding:0}
+.action-list li{padding:6px 0 6px 20px;position:relative;font-size:12px;color:#c9d1d9;border-bottom:1px solid #21262d}
+.action-list li::before{content:'▸';position:absolute;left:0;color:#58a6ff;font-weight:bold}
+.risk{background:#1a1512;border:1px solid #f85149;border-radius:8px;padding:12px;margin:8px 0}
+.risk-t{color:#f85149;font-weight:700;font-size:13px;margin-bottom:4px}
+.big-num{font-size:52px;font-weight:800;color:#3fb950;text-align:center;margin:16px 0}
+.big-num-sub{text-align:center;color:#8b949e;font-size:12px;margin-bottom:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>🎯 Стратегия роста Prosto Home → 100 млн ₽/мес</h1>
+<p class="sub">Диверсификация каналов • Продуктовая линейка 22 SKU • Производственный план • Июль 2026</p>
+
+<!-- HERO -->
+<div class="hero">
+<h2 style="color:#58a6ff;font-size:22px;margin-bottom:6px">Цель: 100 000 000 ₽ заказов в месяц</h2>
+<p style="color:#8b949e;font-size:13px">Сейчас (W27): 7.7 млн₽/нед × 4.33 = 33.4 млн₽/мес → нужен рост <b style="color:#3fb950">×3</b> за 12 месяцев</p>
+<div class="hero-grid">
+<div class="hero-metric">
+<div class="l">Точка А (сейчас)</div>
+<div class="v pri">33.4 млн ₽/мес</div>
+<div class="d">2 канала (WB/OZ). 12 SKU. WB=57%, OZ=42%, ЯМ=0.3%</div>
+</div>
+<div class="hero-metric">
+<div class="l">Точка Б (12 мес)</div>
+<div class="v ok">100 млн ₽/мес</div>
+<div class="d">8 каналов. 22 SKU. Диверсификация до 35% от каждого канала макс.</div>
+</div>
+<div class="hero-metric">
+<div class="l">Производство</div>
+<div class="v warn">5 000 шт/мес</div>
+<div class="d">≈ 167 шт/день. Сейчас ~1 600 шт/мес. Рост производства ×3.1</div>
+</div>
+</div>
+</div>
+
+<!-- PROBLEMS ANALYSIS -->
+<div class="s">
+<h2>🚨 Текущие проблемы: почему нужна диверсификация СРОЧНО</h2>
+<div class="problems">
+<div class="prob">
+<h3>🔥 Атаки на склады WB (18 июля 2026)</h3>
+<p>БПЛА поразили склад Wildberries в Электростали (360 тыс. м², основной узел для Москвы/Подмосковья) и в Котовске. Ущерб может достичь 35.8 млрд ₽. Электросталь — критический узел для доставки в ЦФО. Восстановление — недели/месяцы. <b class="bad">Наши позиции на этом складе под угрозой полной потери.</b></p>
+</div>
+<div class="prob">
+<h3>💸 Ozon поднимает комиссии до 44-55%</h3>
+<p>С 6 апреля 2026 комиссии в категории мебель выросли на 10-15 п.п. С 31 июля 2026 — ещё +6 п.п. для FBO. Чтобы сохранить маржу 22% при новых комиссиях, нужно поднять розничные цены на 10 000₽/стол. Это снизит конверсию и заказы. <b class="bad">Ozon становится каналом с падающей маржой.</b></p>
+</div>
+<div class="prob">
+<h3>⚠️ Зависимость от 2 каналов = 99.7%</h3>
+<p>Сейчас 99.7% выручки идёт через WB+OZ. Любой инцидент на одной площадке = потеря половины бизнеса за неделю. При масштабировании до 100 млн эта зависимость становится критической.</p>
+</div>
+<div class="prob">
+<h3>📦 Постоянные OOS = потери 300-500К ₽/нед</h3>
+<p>В W27: 6 из 10 позиций на Озоне с остатком 0-1 шт. Давос WB — полный OOS. Без роста производства и правильной логистики масштабирование невозможно.</p>
+</div>
+</div>
+</div>
+
+<!-- STRATEGY OVERVIEW -->
+<div class="s">
+<h2>💡 Стратегические принципы роста</h2>
+<div class="g3">
+<div class="metric-box"><div class="l">Правило 35/35/30</div><div class="v">≤35%</div><div class="d">максимум с одного канала. Больше = риск</div></div>
+<div class="metric-box"><div class="l">Продукт-микс</div><div class="v">22 SKU</div><div class="d">Столы круглые 7 + Компакт 4 + Универсал 4 + Пуфы 7</div></div>
+<div class="metric-box"><div class="l">Маржа-цель</div><div class="v">≥28%</div><div class="d">Средневзвешенная. WB ~34%, OZ ~22%, ЯМ ~25%, свой сайт ~50%</div></div>
+</div>
+</div>
+
+<!-- CHANNELS DISTRIBUTION -->
+<div class="s">
+<h2>📊 Распределение 100 млн ₽/мес по каналам</h2>
+<table>
+<tr>
+<th>Канал</th><th>Доля</th><th>Выручка/мес</th><th>Средняя маржа</th><th>Прибыль/мес</th><th>Статус</th><th>Приоритет</th>
+</tr>
+<tr>
+<td>🟣 Wildberries (с ЦФО-складами)</td><td>35%</td><td>35 000 000 ₽</td><td>34%</td><td>11 900 000 ₽</td><td>Действующий</td><td><span class="b bb">1 приоритет</span></td>
+</tr>
+<tr>
+<td>🔵 Ozon (после роста цен)</td><td>20%</td><td>20 000 000 ₽</td><td>22%</td><td>4 400 000 ₽</td><td>Действующий</td><td><span class="b bb">1 приоритет</span></td>
+</tr>
+<tr>
+<td>🟡 Яндекс Маркет (СПП+бустер)</td><td>12%</td><td>12 000 000 ₽</td><td>28%</td><td>3 360 000 ₽</td><td>Спящий</td><td><span class="b bg">2 приоритет</span></td>
+</tr>
+<tr>
+<td>🌐 Свой сайт + Яндекс Кит</td><td>10%</td><td>10 000 000 ₽</td><td>50%</td><td>5 000 000 ₽</td><td>Новый</td><td><span class="b bg">2 приоритет</span></td>
+</tr>
+<tr>
+<td>🏠 Hoff (маркетплейс+магазины)</td><td>8%</td><td>8 000 000 ₽</td><td>25%</td><td>2 000 000 ₽</td><td>Новый</td><td><span class="b by">3 приоритет</span></td>
+</tr>
+<tr>
+<td>🔨 Лемана Про (Леруа)</td><td>5%</td><td>5 000 000 ₽</td><td>25%</td><td>1 250 000 ₽</td><td>Новый</td><td><span class="b by">3 приоритет</span></td>
+</tr>
+<tr>
+<td>🛒 Мегамаркет</td><td>5%</td><td>5 000 000 ₽</td><td>26%</td><td>1 300 000 ₽</td><td>Новый</td><td><span class="b by">3 приоритет</span></td>
+</tr>
+<tr>
+<td>🏢 B2B / офисы / кофейни</td><td>3%</td><td>3 000 000 ₽</td><td>40%</td><td>1 200 000 ₽</td><td>Новый</td><td><span class="b by">4 приоритет</span></td>
+</tr>
+<tr>
+<td>👜 Lamoda Home + Авито + прочие</td><td>2%</td><td>2 000 000 ₽</td><td>30%</td><td>600 000 ₽</td><td>Тест</td><td><span class="b by">4 приоритет</span></td>
+</tr>
+<tr class="t">
+<td>ИТОГО</td><td>100%</td><td>100 000 000 ₽</td><td>31%</td><td>31 010 000 ₽</td><td></td><td></td>
+</tr>
+</table>
+
+<div class="n g">✅ Даже при осторожных оценках маржи, чистая прибыль до налогов ~31 млн ₽/мес = 372 млн ₽/год. При выходе на цель.</div>
+<div class="n">📌 Ключевой принцип: WB+OZ = 55% (не 90% как сейчас). Это защищает от инцидентов и колебаний комиссий.</div>
+</div>
+
+<!-- CHANNEL ANALYSIS -->
+<div class="s">
+<h2>🎯 Детально по каждому каналу</h2>
+
+<!-- WB -->
+<h3 style="color:#a855f7;font-size:17px">🟣 Wildberries — 35 млн ₽/мес (35%)</h3>
+<div class="g2">
+<div>
+<h4>Что делать</h4>
+<ul class="action-list">
+<li>Срочно диверсифицировать склады: 40% Тула/Электросталь → распределить 25% Казань, 25% Краснодар, 25% Санкт-Петербург, 25% Тула (или альтернатива)</li>
+<li>Программа стимулирования отзывов: QR-код в упаковке (у ipromebel 2 667 отзывов vs наши 1 092)</li>
+<li>A/B тесты карточек: фото 360°, видео сборки, инфографика — цель конверсия с 6.6% до 9%</li>
+<li>Расширение матрицы: столы Компакт и Универсал → +8 SKU в матрицу</li>
+<li>Продвижение Каселла/Мрамор/Бетон как флагманы (маржа 34-38%)</li>
+</ul>
+</div>
+<div>
+<h4>Метрики</h4>
+<div class="g2" style="gap:10px">
+<div class="metric-box"><div class="l">Сейчас (мес)</div><div class="v">~20 млн</div><div class="d">4.8 млн/нед</div></div>
+<div class="metric-box"><div class="l">Цель (12 мес)</div><div class="v ok">35 млн</div><div class="d">рост ×1.75</div></div>
+<div class="metric-box"><div class="l">Маржа сейчас</div><div class="v">34.3%</div></div>
+<div class="metric-box"><div class="l">Маржа цель</div><div class="v ok">≥34%</div></div>
+</div>
+<div class="risk">
+<div class="risk-t">⚠️ Риск: атаки на склады</div>
+<div style="font-size:12px">Пока не восстановлена Электросталь — терять до 30% продаж. Диверсификация складов = ускорить в 2х темпе</div>
+</div>
+</div>
+</div>
+
+<!-- OZON -->
+<h3 style="color:#3b82f6;font-size:17px;margin-top:24px">🔵 Ozon — 20 млн ₽/мес (20%)</h3>
+<div class="g2">
+<div>
+<h4>Что делать</h4>
+<ul class="action-list">
+<li>Плановое повышение цен: столы +10 000₽, пуфы +2 000₽. Начать с бестселлеров (Мрамор, Каселла)</li>
+<li>Переход на FBS для крупных: Ozon FBS даёт 50%+, но с новой логистикой можно оптимизировать</li>
+<li>Отключить нерентабельные позиции (Пуф Шоколад OZ) — рент 15.5%</li>
+<li>Локальная логистика — ускорить доставку по регионам</li>
+<li>Снизить долю с 42% до 20% — не делать основной ставкой</li>
+</ul>
+</div>
+<div>
+<h4>Метрики</h4>
+<div class="g2" style="gap:10px">
+<div class="metric-box"><div class="l">Сейчас (мес)</div><div class="v">~13 млн</div><div class="d">2.9 млн/нед</div></div>
+<div class="metric-box"><div class="l">Цель (12 мес)</div><div class="v ok">20 млн</div><div class="d">рост ×1.5 (сдержанно)</div></div>
+<div class="metric-box"><div class="l">Маржа сейчас</div><div class="v">22.8%</div></div>
+<div class="metric-box"><div class="l">Маржа цель</div><div class="v ok">≥22%</div></div>
+</div>
+<div class="risk">
+<div class="risk-t">⚠️ Риск: комиссия до 55%</div>
+<div style="font-size:12px">Даже при росте цен на 10К маржа не восстановится до старых 22% без снижения СТОИМОСТИ товара. Ozon становится "поддерживающим", а не флагманским каналом</div>
+</div>
+</div>
+</div>
+
+<!-- YANDEX MARKET -->
+<h3 style="color:#eab308;font-size:17px;margin-top:24px">🟡 Яндекс Маркет — 12 млн ₽/мес (12%)</h3>
+<div class="g2">
+<div>
+<h4>Что делать</h4>
+<ul class="action-list">
+<li>Восстановить СПП (потерян в W26 → потеря органики). Работать с менеджером ЯМ</li>
+<li>Комиссия по мебели 9.5-13.5% — В 3-4 РАЗА НИЖЕ Ozon! Это скрытый козырь</li>
+<li>Запустить бустер (реклама внутри маркета) + видео обзоры</li>
+<li>FBY схема — хранение на складах Яндекса, быстрая доставка</li>
+<li>Интеграция с Яндекс Кит (собственная витрина продавца)</li>
+<li>Стартовые программы для новых продавцов: пониженная комиссия первые месяцы</li>
+</ul>
+</div>
+<div>
+<h4>Экономика ЯМ</h4>
+<table style="font-size:12px">
+<tr><th>Показатель</th><th>ЯМ</th><th>OZ</th></tr>
+<tr><td>Комиссия</td><td class="ok">9.5-13.5%</td><td class="bad">44-55%</td></tr>
+<tr><td>MAU</td><td>~50 млн</td><td>~60 млн</td></tr>
+<tr><td>Логистика</td><td>Экспресс</td><td>Стандарт</td></tr>
+<tr><td>Маржа потенц.</td><td class="ok">~28-30%</td><td>~22%</td></tr>
+</table>
+<div class="n g">✅ ЯМ = лучшее соотношение маржи и трафика. Недооценённый канал.</div>
+</div>
+</div>
+
+<!-- OWN SITE -->
+<h3 style="color:#8b5cf6;font-size:17px;margin-top:24px">🌐 Собственный сайт + Яндекс Кит — 10 млн ₽/мес (10%)</h3>
+<div class="g2">
+<div>
+<h4>Что делать</h4>
+<ul class="action-list">
+<li><b>prosto-home.ru</b> — Tilda / Shop-Script / Битрикс24 (запуск за 3 недели)</li>
+<li>Яндекс Кит: интеграция как витрина, бесплатный + промо от Яндекса</li>
+<li>Каталог 22 SKU + видео, 3D-конфигуратор столов</li>
+<li>Оплата: ЮKassa, Долями, рассрочка (Тинькофф/Сбер)</li>
+<li>Доставка: собственная + СДЭК + Boxberry</li>
+<li>Трафик: контекст (Директ), SEO, Instagram (мебельные блогеры), YouTube-обзоры</li>
+<li>Retention: email + Telegram-канал</li>
+</ul>
+</div>
+<div>
+<h4>Экономика собственного сайта</h4>
+<div class="metric-box" style="text-align:left;padding:16px">
+<div style="font-size:13px">Стол Каселла на WB: 25 000₽<br>
+Себестоимость: 5 727₽<br>
+Комиссия WB: 25.8%<br>
+Логистика/реклама: ~15%<br>
+<b class="ok">Маржа: 34%</b></div>
+<hr style="margin:12px 0;border-color:#30363d">
+<div style="font-size:13px">Стол Каселла на своём сайте: 25 000₽<br>
+Себестоимость: 5 727₽<br>
+Эквайринг: 2%<br>
+Реклама/доставка: ~15%<br>
+<b class="ok">Маржа: 50%+ (без комиссии маркетплейса!)</b></div>
+</div>
+<div class="n g">✅ Каждый рубль на своём сайте приносит 1.5x больше прибыли, чем на WB</div>
+</div>
+</div>
+
+<!-- HOFF -->
+<h3 style="color:#f59e0b;font-size:17px;margin-top:24px">🏠 Hoff — 8 млн ₽/мес (8%)</h3>
+<div class="g2">
+<div>
+<h4>Что делать</h4>
+<ul class="action-list">
+<li>Подключиться к "Домашний маркетплейс" Hoff (hoff.ru)</li>
+<li>Договор ПОСТАВКИ (не комиссии!) — управление ценой у Hoff</li>
+<li>ЭДО обязателен: подключить Диадок/СБИС</li>
+<li>Бонус: бестселлеры маркетплейса попадают в 50+ розничных магазинов Hoff</li>
+<li>Начать с 6 хитов (Каселла, Мрамор, Бетон, Сланец, Давос, пуф Шоколад)</li>
+<li>Сроки: подготовка договора 30-60 дней, первая поставка через 2 мес</li>
+</ul>
+</div>
+<div>
+<h4>Преимущества и риски</h4>
+<div class="n g">✅ Готовый трафик: посетители Hoff — целевая аудитория покупателей мебели</div>
+<div class="n g">✅ Витрина в физических магазинах — доп. канал</div>
+<div class="n g">✅ Программа лояльности Hoff = скидки покупателям</div>
+<div class="n y">⚠️ Цену устанавливает Hoff (не мы) — терять контроль</div>
+<div class="n y">⚠️ Ассортимент фильтруется — не все товары примут</div>
+</div>
+</div>
+
+<!-- LEROY -->
+<h3 style="color:#10b981;font-size:17px;margin-top:24px">🔨 Лемана Про (Леруа Мерлен) — 5 млн ₽/мес (5%)</h3>
+<div class="g2">
+<div>
+<h4>Что делать</h4>
+<ul class="action-list">
+<li>Подать заявку через сайт lemana-pro.ru: анкета + КП</li>
+<li>Пакет документов: устав, регистрационные документы, сертификаты соответствия (EAC, ГОСТ), тех. паспорта</li>
+<li>Готовиться к аудиту производства (обязательный)</li>
+<li>121 магазин в 54 городах + маркетплейс — огромный охват</li>
+<li>Стартовые категории: столы Компакт (позиционирование как "универсальный")</li>
+<li>Срок рассмотрения заявки: до 45 дней</li>
+</ul>
+</div>
+<div>
+<h4>Специфика Лемана Про</h4>
+<div class="n y">⚠️ Аудит производства обязателен</div>
+<div class="n y">⚠️ Условия сотрудничества жёсткие: бесперебойность поставок, склады, логистика</div>
+<div class="n g">✅ Ассортиментная матрица публикуется — можно проверить, что нужно</div>
+<div class="n g">✅ Оборот: миллиарды рублей, стабильные заказы</div>
+<div class="n">📌 Начать сейчас — выход через 3-4 месяца минимум</div>
+</div>
+</div>
+
+<!-- MEGAMARKET -->
+<h3 style="color:#ec4899;font-size:17px;margin-top:24px">🛒 Мегамаркет — 5 млн ₽/мес (5%)</h3>
+<ul class="action-list">
+<li>Комиссия 10-20% (в 2-3 раза ниже Ozon)</li>
+<li>Аудитория 15-20 млн MAU — растущая</li>
+<li>СберСпасибо, СберПрайм — бонусные программы, помогают продажам</li>
+<li>Простое подключение: FBS/DBS схемы</li>
+<li>Тестовый запуск: 5-6 хитов на 2-3 месяца, потом масштабировать</li>
+</ul>
+
+<!-- B2B -->
+<h3 style="color:#06b6d4;font-size:17px;margin-top:24px">🏢 B2B / HoReCa / Офисы — 3 млн ₽/мес (3%)</h3>
+<ul class="action-list">
+<li>Кофейни, коворкинги, шоурумы: круглые столы 100/160 идеально подходят под HoReCa</li>
+<li>Прямые продажи офисам: столы Универсал (письменный/косметический/ТВ-тумба)</li>
+<li>Тендерная работа: b2b-center.ru, gostender.ru</li>
+<li>Дизайн-студии: партнёрство с интерьерными агентствами (комиссия 10-15%)</li>
+<li>Маржа выше: нет комиссий маркетплейса, объёмные заказы</li>
+</ul>
+
+</div>
+
+<!-- PRODUCT MATRIX -->
+<div class="s">
+<h2>📦 Продуктовая матрица и приоритеты</h2>
+
+<h3>Текущий каталог (12 SKU) → Целевой каталог (22 SKU)</h3>
+<div class="g2">
+<div>
+<h4>Действующие</h4>
+<div style="background:#0d1117;padding:12px;border-radius:8px;font-size:12px">
+<b class="pri">Столы круглые 100/160 (7 SKU):</b><br>
+Дуб Каселла, Мрамор Кристалл, Бетон Чикаго, Сланец Скиваро, Дуб Давос, Ясень Наварра, +1 новый<br><br>
+<b class="warn">Пуфы 71см (7 SKU):</b><br>
+Шоколад, Бежевый, Молочный, Серый, Графит, Бордо, +1 новый
+</div>
+</div>
+<div>
+<h4>Новые линии (запуск в 2026-2027)</h4>
+<div style="background:#0d1117;padding:12px;border-radius:8px;font-size:12px">
+<b class="ok">Столы Компакт (4 SKU) — Q3 2026:</b><br>
+4 варианта отделки. Цена ~15 000₽. Позиционирование: "для маленьких кухонь"<br><br>
+<b class="ok">Столы Универсал (4 SKU) — Q4 2026:</b><br>
+Многофункциональные: письменный + косметический + ТВ-подставка. Цена ~18 000₽. Позиционирование: "3 в 1"
+</div>
+</div>
+</div>
+
+<h3>Распределение выручки по продуктам (при 100 млн/мес)</h3>
+<table>
+<tr>
+<th>Категория</th><th>SKU</th><th>Средняя цена</th><th>Доля выручки</th><th>Выручка/мес</th><th>Шт/мес</th><th>Основные каналы</th>
+</tr>
+<tr>
+<td>Столы круглые</td><td>7</td><td>22 500 ₽</td><td>45%</td><td>45 000 000 ₽</td><td>2 000 шт</td><td>WB, OZ, ЯМ, Hoff</td>
+</tr>
+<tr>
+<td>Столы Компакт (новые)</td><td>4</td><td>15 000 ₽</td><td>20%</td><td>20 000 000 ₽</td><td>1 333 шт</td><td>WB, ЯМ, Лемана Про</td>
+</tr>
+<tr>
+<td>Столы Универсал (новые)</td><td>4</td><td>18 000 ₽</td><td>20%</td><td>20 000 000 ₽</td><td>1 111 шт</td><td>WB, свой сайт, B2B</td>
+</tr>
+<tr>
+<td>Пуфы</td><td>7</td><td>10 500 ₽</td><td>15%</td><td>15 000 000 ₽</td><td>1 429 шт</td><td>Все каналы</td>
+</tr>
+<tr class="t">
+<td>ВСЕГО</td><td>22 SKU</td><td>средн. 17 к</td><td>100%</td><td>100 000 000 ₽</td><td>~5 900 шт</td><td></td>
+</tr>
+</table>
+</div>
+
+<!-- PRODUCTION -->
+<div class="s">
+<h2>🏭 Производственный план</h2>
+
+<div class="big-num">5 900 шт/мес</div>
+<div class="big-num-sub">≈ 197 шт/день (при 30 рабочих днях) • Сейчас ~1 600 шт/мес • Рост ×3.7</div>
+
+<h3>Помесячный план производства</h3>
+<table>
+<tr>
+<th>Категория</th><th>Шт/мес</th><th>Шт/день</th><th>Себест. ед.</th><th>Материалы/мес</th><th>Приоритет производства</th>
+</tr>
+<tr>
+<td>Столы круглые</td><td>2 000</td><td>67</td><td>5 727 ₽</td><td>11.5 млн ₽</td><td><span class="b bb">Приоритет 1</span> Кэш-корова</td>
+</tr>
+<tr>
+<td>Столы Компакт</td><td>1 333</td><td>44</td><td>4 500 ₽</td><td>6.0 млн ₽</td><td><span class="b bg">Приоритет 2</span> Новый хит</td>
+</tr>
+<tr>
+<td>Столы Универсал</td><td>1 111</td><td>37</td><td>5 000 ₽</td><td>5.6 млн ₽</td><td><span class="b bg">Приоритет 2</span> Новый хит</td>
+</tr>
+<tr>
+<td>Пуфы</td><td>1 429</td><td>48</td><td>2 100 ₽</td><td>3.0 млн ₽</td><td><span class="b by">Приоритет 3</span> Дополнение</td>
+</tr>
+<tr class="t">
+<td>ВСЕГО</td><td>5 873</td><td>~200</td><td></td><td>26.1 млн ₽</td><td></td>
+</tr>
+</table>
+
+<h3>Что требуется для роста ×3.7 в производстве</h3>
+<div class="g2">
+<div>
+<ul class="action-list">
+<li><b>Расширение цеха:</b> +2 линии сборки столов + 1 линия пуфов</li>
+<li><b>Найм персонала:</b> +12-15 работников (сборщики, обивщики, упаковщики)</li>
+<li><b>Оборудование:</b> раскроечный станок ЧПУ, шлифовальные, покрасочная камера</li>
+<li><b>Склад сырья:</b> запас ЛДСП/МДФ/фурнитуры на 6 недель вперёд</li>
+<li><b>Логистика:</b> 2-3 фуры для регулярной отправки на склады МП</li>
+<li><b>Автоматизация:</b> 1С:УНФ или Мой Склад для управления запасами</li>
+</ul>
+</div>
+<div>
+<h4>Финансовая модель производства</h4>
+<div class="metric-box" style="text-align:left;padding:16px">
+<div style="font-size:13px;line-height:1.8">
+Материалы: <b>26.1 млн ₽/мес</b><br>
+Зарплата (35 чел × 90К): <b>3.2 млн ₽/мес</b><br>
+Аренда цеха + услуги: <b>1.5 млн ₽/мес</b><br>
+Логистика МП: <b>4 млн ₽/мес</b><br>
+Прочее: <b>2 млн ₽/мес</b><br>
+<hr style="border-color:#30363d;margin:8px 0">
+<b>Итого расходы: ~37 млн ₽/мес</b><br>
+<b class="ok">Прибыль до налогов: ~33 млн ₽/мес</b>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- LOGISTICS -->
+<div class="s">
+<h2>🚚 Логистика — куда грузить и в каких пропорциях</h2>
+
+<h3>Стратегия распределения товара на склады</h3>
+<table>
+<tr>
+<th>Канал/Склад</th><th>Доля запаса</th><th>SKU-фокус</th><th>Обоснование</th>
+</tr>
+<tr>
+<td><b>WB Тула</b></td><td>15%</td><td>Все столы+пуфы</td><td>Обслуживает ЦФО. Основной. Учесть риски.</td>
+</tr>
+<tr>
+<td><b>WB Казань</b></td><td>10%</td><td>Столы круглые</td><td>Урал+Поволжье. Резервный склад</td>
+</tr>
+<tr>
+<td><b>WB Краснодар</b></td><td>8%</td><td>Пуфы+Компакт</td><td>Юг России. Быстрая доставка</td>
+</tr>
+<tr>
+<td><b>WB СПб (Уткина Заводь)</b></td><td>7%</td><td>Столы Универсал</td><td>Северо-Запад. Растущий регион</td>
+</tr>
+<tr>
+<td><b>OZ Хоругвино</b></td><td>10%</td><td>Флагманы (Мрамор, Каселла)</td><td>ЦФО. Основной OZ склад</td>
+</tr>
+<tr>
+<td><b>OZ Казань</b></td><td>5%</td><td>Столы Компакт</td><td>Поволжье. Быстрая доставка</td>
+</tr>
+<tr>
+<td><b>OZ Ростов/Краснодар</b></td><td>5%</td><td>Пуфы</td><td>Юг России</td>
+</tr>
+<tr>
+<td><b>ЯМ FBY (Софьино)</b></td><td>10%</td><td>Все SKU</td><td>Экспресс-доставка Яндекса</td>
+</tr>
+<tr>
+<td><b>Свой склад (Москва)</b></td><td>15%</td><td>Все SKU</td><td>Свой сайт, Мегамаркет DBS, B2B</td>
+</tr>
+<tr>
+<td><b>Hoff (централиз.)</b></td><td>8%</td><td>Флагманы</td><td>По договору поставки</td>
+</tr>
+<tr>
+<td><b>Леруа (централиз.)</b></td><td>5%</td><td>Столы Компакт</td><td>По договору</td>
+</tr>
+<tr>
+<td><b>Резерв/производство</b></td><td>2%</td><td>Все SKU</td><td>Экстренные пополнения</td>
+</tr>
+<tr class="t">
+<td>ИТОГО</td><td>100%</td><td></td><td>~5 900 шт распределены на 12 узлов</td>
+</tr>
+</table>
+
+<div class="n">📌 Принцип: НИ ОДИН склад не должен содержать >15% запаса. Это защита от инцидентов (пожаров, атак, блокировок).</div>
+</div>
+
+<!-- ROADMAP -->
+<div class="s">
+<h2>🗺️ Дорожная карта: путь от 33 к 100 млн ₽/мес</h2>
+
+<div class="timeline">
+<div class="phase">
+<h3>Q3 2026 (Август-Октябрь): Стабилизация + запуск новых каналов</h3>
+<p><b>Задачи:</b> Диверсификация WB-складов (снизить долю Электросталь до 15%). Восстановление СПП на ЯМ. Запуск сайта prosto-home.ru (Tilda). Подача заявок в Hoff, Лемана Про, Мегамаркет. Начало производства столов Компакт.</p>
+<p><b>Метрики:</b> <b class="ok">45-50 млн ₽/мес</b> заказов. Каналов: 5. SKU: 16.</p>
+</div>
+<div class="phase">
+<h3>Q4 2026 (Ноябрь-Январь): Запуск Компакт + новые площадки</h3>
+<p><b>Задачи:</b> Столы Компакт в продаже на всех каналах. Первые продажи в Hoff и Мегамаркете. Запуск столов Универсал в разработку. Расширение производства (+2 линии).</p>
+<p><b>Метрики:</b> <b class="ok">60-70 млн ₽/мес</b> заказов. Каналов: 6. SKU: 20.</p>
+</div>
+<div class="phase">
+<h3>Q1 2027 (Февраль-Апрель): Запуск Универсал + Леруа</h3>
+<p><b>Задачи:</b> Столы Универсал в продаже. Первые поставки в Лемана Про. Развитие B2B (кофейни, коворкинги). Масштабирование своего сайта (~7 млн/мес).</p>
+<p><b>Метрики:</b> <b class="ok">75-85 млн ₽/мес</b> заказов. Каналов: 7. SKU: 22.</p>
+</div>
+<div class="phase">
+<h3>Q2 2027 (Май-Июль): ВЫХОД НА 100 МЛН ₽/МЕС</h3>
+<p><b>Задачи:</b> Полная матрица 22 SKU на всех 8 каналах. Экспорт в Казахстан/Беларусь (Kaspi, WildBerries KZ). Первые B2B-контракты. Тестирование Lamoda Home.</p>
+<p><b>Метрики:</b> <b class="ok">100+ млн ₽/мес</b> заказов. Каналов: 8-9. SKU: 22-25. Маржа средневзв. 30%+.</p>
+</div>
+</div>
+</div>
+
+<!-- ACTION -->
+<div class="s">
+<h2>⚡ Что делать в первые 30 дней</h2>
+<div class="g2">
+<div>
+<h3>Неделя 1-2 (срочно)</h3>
+<ul class="action-list">
+<li>🚨 Перераспределить поставки с Электросталь на Тула/Казань/Краснодар</li>
+<li>🚨 Отключить рекламу на Пуф Серый WB (ДРР 38%)</li>
+<li>📞 Связаться с менеджером ЯМ для восстановления СПП</li>
+<li>💰 Пересчитать цены OZ +10К на 3 бестселлерах (Мрамор, Каселла, Бетон) — тест на конверсию</li>
+<li>📦 Срочно пополнить OOS позиции OZ (Давос, Бетон, пуфы)</li>
+<li>🖥️ Регистрация домена prosto-home.ru + начало разработки на Tilda</li>
+</ul>
+</div>
+<div>
+<h3>Неделя 3-4</h3>
+<ul class="action-list">
+<li>📄 Подача заявки в Hoff "Домашний маркетплейс"</li>
+<li>📄 Подача заявки в Лемана Про (готовить пакет документов + сертификаты)</li>
+<li>📄 Регистрация в Мегамаркете (тестовый запуск на 5 SKU)</li>
+<li>🏭 Начало проектирования столов Компакт (первые 4 SKU) — прототипы</li>
+<li>🎥 Заказать видео-обзоры товаров у 3-5 мебельных блогеров (реклама на маркетплейсах + свой сайт)</li>
+<li>📊 Внедрить сквозную аналитику по каналам (Яндекс Метрика + AmoCRM)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<!-- RISKS -->
+<div class="s">
+<h2>⚠️ Ключевые риски и защита</h2>
+<div class="g2">
+<div>
+<div class="risk">
+<div class="risk-t">🔥 Дальнейшие атаки/пожары на WB</div>
+<div style="font-size:12px">Защита: диверсификация 4-5 складов. Максимум 15% на один. Резервный склад свой в Москве.</div>
+</div>
+<div class="risk">
+<div class="risk-t">💸 Дальнейший рост комиссий на Ozon</div>
+<div style="font-size:12px">Защита: снизить долю OZ до 20%. Развивать ЯМ (комиссия 9-13%) и свой сайт (0% комиссия).</div>
+</div>
+<div class="risk">
+<div class="risk-t">🏭 Не успеть масштабировать производство</div>
+<div style="font-size:12px">Защита: искать субподрядчиков (2-3 партнёра-цеха на аутсорс), запуск в Q3 2026, чтобы к Q1 2027 линия работала стабильно.</div>
+</div>
+</div>
+<div>
+<div class="risk">
+<div class="risk-t">💰 Кассовый разрыв при росте</div>
+<div style="font-size:12px">Защита: получить кредитную линию 30-50 млн₽ под товарные запасы. Работать по факторингу с крупными клиентами.</div>
+</div>
+<div class="risk">
+<div class="risk-t">📉 Провал новых SKU (Компакт/Универсал)</div>
+<div style="font-size:12px">Защита: тестовый запуск 2 недели на WB перед массовым производством. A/B тесты цен и фото. Быстрый выход, если не идёт.</div>
+</div>
+<div class="risk">
+<div class="risk-t">🏢 Отказ от Hoff/Леруа</div>
+<div style="font-size:12px">Защита: не критично — это 13% плана. При отказе усилить свой сайт (+5%) и Мегамаркет (+3%). План перекрывается.</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- SUMMARY -->
+<div class="s">
+<h2>🎯 Финальный вывод</h2>
+<div class="n g" style="font-size:14px">✅ <b>Цель 100 млн ₽/мес достижима за 9-12 месяцев</b> при соблюдении трёх принципов: диверсификация каналов (не более 35% на один), запуск новых SKU (Компакт + Универсал), утроение производства.</div>
+<div class="n g" style="font-size:14px">✅ <b>WB остаётся основой (35%)</b> — но с срочной географической диверсификацией складов из-за атак</div>
+<div class="n g" style="font-size:14px">✅ <b>Собственный сайт + Яндекс Маркет = скрытые козыри</b> — маржа 30-50% против 22% на Ozon</div>
+<div class="n y" style="font-size:14px">⚠️ <b>Ozon снизится с 42% до 20% доли</b> — из-за роста комиссий. Не рабочий канал, но поддерживающий</div>
+<div class="n" style="font-size:14px">📌 <b>Производство ×3.7</b> — самое узкое место. Начинать расширение прямо сейчас, до запуска новых каналов</div>
+<div class="n g" style="font-size:14px">✅ <b>Ожидаемая прибыль: ~30-33 млн ₽/мес</b> = 360-400 млн ₽/год на цели</div>
+</div>
+
+</div>
+</body>
+</html>
